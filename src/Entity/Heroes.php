@@ -41,6 +41,9 @@ class Heroes
     #[ORM\OneToMany(mappedBy: 'heroes', targetEntity: Videos::class)]
     private Collection $videos;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
@@ -209,6 +212,18 @@ class Heroes
                 $video->setHeroes(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
