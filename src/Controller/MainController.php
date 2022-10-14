@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Heroes;
 use App\Repository\HeroesRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -19,11 +21,5 @@ class MainController extends AbstractController
                 ['name' => 'asc']
             )
         ]);
-    }
-    #[Route('/{slug}', name: 'app_guide')]
-    public function guidePage(Heroes $heroes, HeroesRepository $heroesRepository): Response
-    {
-
-        return $this->render('main/heroepage.html.twig');
     }
 }

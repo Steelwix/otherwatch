@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un Héros
+{% endblock %}
+
+{% block body %}
+	<section class="container">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h1>Créer un héros</h1>
+			</div>
+			<div class="card col-10 col-md-9 col-lg-6 mx-auto text-center"><br>
+				{{ form_start(HeroeForm)}}<br>
+				{{ form_row(HeroeForm.name)}}<br>
+				{{ form_row(HeroeForm.role)}}<br>
+				<button type="submit" class="btn btn-primary btn-lg">Créer</button><br><br>
+				{{ form_end(HeroeForm)}}
+			</div>
+		</div>
+	</section>
+{% endblock %}
