@@ -44,11 +44,15 @@ class Heroes
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[ORM\OneToMany(mappedBy: 'heroes', targetEntity: Abilities::class)]
+    private Collection $abilities;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
         $this->medias = new ArrayCollection();
         $this->videos = new ArrayCollection();
+        $this->abilities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -224,6 +228,36 @@ class Heroes
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Abilities>
+     */
+    public function getAbilities(): Collection
+    {
+        return $this->abilities;
+    }
+
+    public function addAbility(Abilities $ability): self
+    {
+        if (!$this->abilities->contains($ability)) {
+            $this->abilities->add($ability);
+            $ability->setHeroes($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAbility(Abilities $ability): self
+    {
+        if ($this->abilities->removeElement($ability)) {
+            // set the owning side to null (unless already changed)
+            if ($ability->getHeroes() === $this) {
+                $ability->setHeroes(null);
+            }
+        }
 
         return $this;
     }

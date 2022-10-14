@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une abilité
+{% endblock %}
+
+{% block body %}
+	<section class="container">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h1>Créer une abilité</h1>
+			</div>
+			<div class="card col-10 col-md-9 col-lg-6 mx-auto text-center"><br>
+				{{ form_start(abilityForm)}}<br>
+				{{ form_row(abilityForm.heroes)}}<br>
+				{{ form_row(abilityForm.name)}}<br>
+				{{ form_row(abilityForm.description)}}<br>
+				<button type="submit" class="btn btn-primary btn-lg">Créer</button><br><br>
+				{{ form_end(abilityForm)}}
+			</div>
+		</div>
+	</section>
+{% endblock %}
