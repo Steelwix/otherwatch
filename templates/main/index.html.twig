@@ -9,24 +9,30 @@
 					<i>OTHERWATCH</i>
 				</h1>
 			</div>
+			<div class="col-12 text-center">
+				<h3>
+					<i>TANK</i>
+				</h3>
+			</div>
+
 			{% for heroe in heroes %}
 
+				{% if heroe.role.name == "Tank" %}
+					<div class="card col-3 mh-500 d-flex align-items-stretch ">
+						<a href="{{ path('app_guide',{slug: heroe.slug}) }}" class=" text-decoration-none">
+							<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
+							<div class="card-title text-center">
 
-				<div class="card col-3 mh-500 d-flex align-items-stretch ">
-					<a href="{{ path('app_guide',{slug: heroe.slug}) }}" class=" text-decoration-none">
-						<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
-						<div class="card-title text-center">
+								<strong>
+									<i>
+										<h3>{{heroe.name}}</h3>
+									</strong>
+								</i>
 
-							<strong>
-								<i>
-									<h3>{{heroe.name}}</h3>
-								</strong>
-							</i>
-
-						</div>
-					</a>
-				</div>
-
+							</div>
+						</a>
+					</div>
+				{% endif %}
 			{% endfor %}
 		</div>
 	</div>
