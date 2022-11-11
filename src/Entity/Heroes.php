@@ -32,7 +32,7 @@ class Heroes
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $modificationDate = null;
 
-    #[ORM\OneToMany(mappedBy: 'heroes', targetEntity: Medias::class)]
+    #[ORM\OneToMany(mappedBy: 'heroes', targetEntity: Medias::class, cascade: ['persist', 'remove'])]
     private Collection $medias;
 
     #[ORM\OneToOne(mappedBy: 'heroes', cascade: ['persist', 'remove'])]
@@ -46,6 +46,9 @@ class Heroes
 
     #[ORM\OneToMany(mappedBy: 'heroes', targetEntity: Abilities::class)]
     private Collection $abilities;
+
+    #[ORM\Column(length: 2500, nullable: true)]
+    private ?string $description = null;
 
     public function __construct()
     {
@@ -258,6 +261,18 @@ class Heroes
                 $ability->setHeroes(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
