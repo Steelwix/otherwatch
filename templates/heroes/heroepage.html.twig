@@ -10,8 +10,28 @@
 				</h1>
 			</div>
 			<div class="col-12">
-				description
+				<p>{{heroes.description}}</p>
 			</div>
+			<div class="col-12 text-center">
+				<h3>
+					<i>Capacités</i>
+				</h3>
+			</div>
+			{% for ability in abilities %}
+				<div class="card col-3 d-flex align-items-stretch ">
+					<a href="" class=" text-decoration-none">
+						<img class="mx-auto d-block" src="{{asset('/uploads/spellsicons/'~ ability.spellsIcons.name)}}" alt="Card image cap">
+						<div class="card-title text-center">
+							<strong>
+								<i>
+									<h3>{{ability.name}}</h3>
+								</strong>
+							</i>
+
+						</div>
+					</a>
+				</div>
+			{% endfor %}
 
 		</div>
 	</div>

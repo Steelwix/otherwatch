@@ -6,6 +6,7 @@ use App\Entity\Heroes;
 use App\Entity\Roles;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -33,6 +34,16 @@ class CreateHeroeFormType extends AbstractType
                     'class' => 'form-control'
                 ]
 
+            ])
+            ->add('medias', FileType::class, [
+                'label' => 'Définir une image pour le héros',
+                'multiple' => false,
+                'mapped' => false,
+                'required' => false,
+                'data_class' => null,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ]);
     }
 

@@ -22,6 +22,9 @@ class Abilities
     #[ORM\Column(length: 2000, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\OneToOne(mappedBy: 'ability', cascade: ['persist', 'remove'])]
+    private ?SpellsIcons $spellsIcons = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,28 @@ class Abilities
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getSpellsIcons(): ?SpellsIcons
+    {
+        return $this->spellsIcons;
+    }
+
+    public function setSpellsIcons(?SpellsIcons $spellsIcons): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($spellsIcons === null && $this->spellsIcons !== null) {
+            $this->spellsIcons->setAbility(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($spellsIcons !== null && $spellsIcons->getAbility() !== $this) {
+            $spellsIcons->setAbility($this);
+        }
+
+        $this->spellsIcons = $spellsIcons;
 
         return $this;
     }

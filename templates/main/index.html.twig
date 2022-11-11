@@ -12,15 +12,19 @@
 			<div class="col-12 text-center">
 				<h3>
 					<i>TANK</i>
+
 				</h3>
 			</div>
 
 			{% for heroe in heroes %}
-
 				{% if heroe.role.name == "Tank" %}
 					<div class="card col-3 mh-500 d-flex align-items-stretch ">
 						<a href="{{ path('app_guide',{slug: heroe.slug}) }}" class=" text-decoration-none">
-							<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
+							{% if heroe.illustrations.medias.name  is defined %}
+								<img class="card-img-top" src="{{asset('/uploads/medias/'~ heroe.illustrations.medias.name)}}" alt="Card image cap">
+							{% else %}
+								<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
+							{% endif %}
 							<div class="card-title text-center">
 
 								<strong>
