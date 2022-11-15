@@ -17,22 +17,28 @@
 					<i>Capacités</i>
 				</h3>
 			</div>
-			{% for ability in abilities %}
-				<div class="card col-3 d-flex align-items-stretch ">
-					<a href="" class=" text-decoration-none">
-						<img class="mx-auto d-block" src="{{asset('/uploads/spellsicons/'~ ability.spellsIcons.name)}}" alt="Card image cap">
-						<div class="card-title text-center">
-							<strong>
-								<i>
-									<h3>{{ability.name}}</h3>
-								</strong>
-							</i>
+			<div class="spell-row">
+				{% for ability in abilities %}
+					<div class="">
+						<div class="wrap-spell text-decoration-none">
+							<img class="mx-auto d-block" src="{{asset('/uploads/spellsicons/'~ ability.spellsIcons.name)}}" alt="Card image cap">
+							<div class="spell-name">
+								<strong>
+									<i>
+										{{ability.name}}
+									</strong>
+								</i>
+
+							</div>
+						</div>
+						<div class="content">
+							<p>{{ability.description}}</p>
 
 						</div>
-					</a>
-				</div>
-			{% endfor %}
 
+					</div>
+
+				{% endfor %}
+			</div>
 		</div>
-	</div>
-{% endblock %}
+	{% endblock %}
