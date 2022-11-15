@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Abilities;
+use App\Entity\SpellsIcons;
 use App\Form\CreateAbilityFormType;
 use App\Repository\AbilitiesRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,6 +21,15 @@ class AbilitiesController extends AbstractController
         $form = $this->createForm(CreateAbilityFormType::class, $abilities);
         $form->handleRequest($request);
         if ($form->isSubmitted() and $form->isValid()) {
+            $spellsIcons = $form->get('spellsIcons')->getData();
+            $spellsName = md5(uniqid()) . '.' . $spellsIcons->guessExtension();
+            $spellsIcons->move(
+                $this->getParameter('spells_icons_directory'),
+                $spellsName
+            );
+            $newSpellsIcons = new SpellsIcons();
+            $newSpellsIcons->setName($spellsName);
+            $abilities->setSpellsIcons($newSpellsIcons);
             $entityManager->persist($abilities);
             $entityManager->flush();
             return $this->redirectToRoute('app_home');

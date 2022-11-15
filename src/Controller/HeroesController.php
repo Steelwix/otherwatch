@@ -54,7 +54,7 @@ class HeroesController extends AbstractController
             ]
         );
     }
-    #[Route('/{slug}', name: 'app_guide')]
+    #[Route('/heroe/{slug}', name: 'app_guide')]
     public function guidePage(Heroes $heroes, HeroesRepository $heroesRepository): Response
     {
         $abilities = $heroes->getAbilities();
