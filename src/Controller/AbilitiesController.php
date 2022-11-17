@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AbilitiesController extends AbstractController
 {
-    #[Route('/create/ability', name: 'app_abilities')]
+    #[Route('/create/ability', name: 'app_new_ability')]
     public function createAbility(AbilitiesRepository $abilitiesRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $abilities = new Abilities;
