@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Heroes;
 use App\Entity\Illustrations;
 use App\Entity\Medias;
+use App\Entity\Messages;
+use App\Form\CommentaryFormType;
 use App\Form\CreateHeroeFormType;
 use App\Repository\HeroesRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -55,9 +57,26 @@ class HeroesController extends AbstractController
         );
     }
     #[Route('/heroe/{slug}', name: 'app_guide')]
-    public function guidePage(Heroes $heroes, HeroesRepository $heroesRepository): Response
+    public function guidePage(Heroes $heroes, HeroesRepository $heroesRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
+
         $abilities = $heroes->getAbilities();
-        return $this->render('heroes/heroepage.html.twig', ['heroes' => $heroes, 'abilities' => $abilities]);
+        $messages = $heroes->getMessages();
+        $newMessage = new Messages();
+        $form = $this->createForm(CommentaryFormType::class, $newMessage);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() and $form->isValid()) {
+            $date = new \DateTimeImmutable('@' . strtotime('now'));
+            $newMessage->setDate($date);
+            $newMessage->setHeroes($heroes);
+            $newMessage->setUsers($this->getUser());
+            $newMessage->setContent($form->get('content')->getData());
+            $entityManager->persist($newMessage);
+            $entityManager->flush();
+            $currentSlug = $heroes->getSlug();
+            return $this->redirectToRoute('app_guide', ['slug' => $currentSlug]);
+        }
+
+        return $this->render('heroes/heroepage.html.twig', ['heroes' => $heroes, 'abilities' => $abilities, 'messages' => $messages, 'comForm' => $form->createView()]);
     }
 }

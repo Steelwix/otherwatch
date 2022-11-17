@@ -6,14 +6,23 @@
 
 .spell-row {
     display: flex;
-    align-items: center;
     justify-content: space-evenly;
+    min-height: 80vh;
+    height: 80vh;
+
 }
 
 .wrap-spell {
     margin: auto;
     width: 5vw;
     height: 10vh;
+}
+
+.wrap-spell:hover {
+    margin: auto;
+    width: 5vw;
+    height: 10vh;
+    border: solid #5B6DCD 1px;
 }
 
 .spell-name {
@@ -39,4 +48,13 @@ img {
     width: 100%;
 
     display: none;
+}
+
+.comment-section {
+    border-radius: 10px;
+    background-color: #353536;
+}
+
+.grey-text {
+    color: #787879
 }

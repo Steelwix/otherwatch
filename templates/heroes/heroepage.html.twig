@@ -35,10 +35,32 @@
 							<p>{{ability.description}}</p>
 
 						</div>
-
 					</div>
 
 				{% endfor %}
 			</div>
 		</div>
-	{% endblock %}
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-12 comment-section">
+				<h3>Commentaires</h3>
+				<div class="col-12">
+					{% if app.user.username is defined%}
+						<div class="col-12">
+							{{ form_start(comForm)}}
+							{{ form_row(comForm.content)}}<br>
+							<button type="submit" class="btn btn-primary">Publier</button>
+							{{ form_end(comForm)}}
+						{% endif %}
+						{% for message in messages %}
+							<div class="col-12">
+								<strong>{{message.users.username}}</strong>
+								<i class="grey-text">posté le
+									{{message.date|date('d-m-Y H:i:s')}}</i>
+								<p>{{message.content}}</p>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			{% endblock %}
