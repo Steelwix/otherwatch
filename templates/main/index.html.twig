@@ -19,7 +19,7 @@
 
 			{% for heroe in heroes %}
 				{% if heroe.role.name == "Tank" %}
-					<div class="card col-3 mh-500 d-flex align-items-stretch ">
+					<div class="card col-3 mh-500 d-flex align-items-stretch wrap-heroe">
 						<a href="{{ path('app_guide',{slug: heroe.slug}) }}" class=" text-decoration-none">
 							{% if heroe.illustrations.medias.name  is defined %}
 								<img class="card-img-top" src="{{asset('/uploads/medias/'~ heroe.illustrations.medias.name)}}" alt="Card image cap">

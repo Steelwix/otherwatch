@@ -22,7 +22,11 @@
     margin: auto;
     width: 5vw;
     height: 10vh;
-    border: solid #5B6DCD 1px;
+    border: solid #00eeff 1px;
+}
+
+.wrap-heroe:hover {
+    border: solid #00eeff 1px;
 }
 
 .spell-name {

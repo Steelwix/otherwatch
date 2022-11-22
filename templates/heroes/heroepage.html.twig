@@ -4,11 +4,26 @@
 {% block body %}
 	<div class="container">
 		<div class="row">
+			{% if app.user.username is defined %}
+				<div class="col-2 col-md-1 ms-auto">
+					<a type="button" class="btn btn-dark mt-3" href="{{ path('app_modify_heroe',{id: heroes.id}) }}">
+						<i class="bi bi-pen-fill"></i>
+
+					</a>
+					<a type="button" class="btn btn-dark mt-3" href="">
+						<i class="bi bi-trash-fill"></i>
+
+					</a>
+				</div>
+
+			{% endif %}
 			<div class="col-12 text-center">
 				<h1>
 					<i>{{heroes.name}}</i>
+
 				</h1>
 			</div>
+
 			<div class="col-12">
 				<p>{{heroes.description}}</p>
 			</div>
