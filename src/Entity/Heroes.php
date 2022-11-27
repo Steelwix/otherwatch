@@ -50,12 +50,21 @@ class Heroes
     #[ORM\Column(length: 2500, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\OneToMany(mappedBy: 'isCountered', targetEntity: Counters::class)]
+    private Collection $isCountered;
+
+    #[ORM\OneToMany(mappedBy: 'counter', targetEntity: Counters::class)]
+    private Collection $counter;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
         $this->medias = new ArrayCollection();
         $this->videos = new ArrayCollection();
         $this->abilities = new ArrayCollection();
+        $this->counters = new ArrayCollection();
+        $this->isCountered = new ArrayCollection();
+        $this->counter = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -273,6 +282,66 @@ class Heroes
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Counters>
+     */
+    public function getIsCountered(): Collection
+    {
+        return $this->isCountered;
+    }
+
+    public function addIsCountered(Counters $isCountered): self
+    {
+        if (!$this->isCountered->contains($isCountered)) {
+            $this->isCountered->add($isCountered);
+            $isCountered->setIsCountered($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIsCountered(Counters $isCountered): self
+    {
+        if ($this->isCountered->removeElement($isCountered)) {
+            // set the owning side to null (unless already changed)
+            if ($isCountered->getIsCountered() === $this) {
+                $isCountered->setIsCountered(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Counters>
+     */
+    public function getCounter(): Collection
+    {
+        return $this->counter;
+    }
+
+    public function addCounter(Counters $counter): self
+    {
+        if (!$this->counter->contains($counter)) {
+            $this->counter->add($counter);
+            $counter->setCounter($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCounter(Counters $counter): self
+    {
+        if ($this->counter->removeElement($counter)) {
+            // set the owning side to null (unless already changed)
+            if ($counter->getCounter() === $this) {
+                $counter->setCounter(null);
+            }
+        }
 
         return $this;
     }
