@@ -4,11 +4,26 @@
 {% block body %}
 	<div class="container">
 		<div class="row">
+			{% if app.user.username is defined %}
+				<div class="col-2 col-md-1 ms-auto">
+					<a type="button" class="btn btn-dark mt-3" href="{{ path('app_modify_heroe',{id: heroes.id}) }}">
+						<i class="bi bi-pen-fill"></i>
+
+					</a>
+					<a type="button" class="btn btn-dark mt-3" href="{{ path('app_delete_heroe',{id: heroes.id}) }}">
+						<i class="bi bi-trash-fill"></i>
+
+					</a>
+				</div>
+
+			{% endif %}
 			<div class="col-12 text-center">
 				<h1>
 					<i>{{heroes.name}}</i>
+
 				</h1>
 			</div>
+
 			<div class="col-12">
 				<p>{{heroes.description}}</p>
 			</div>
@@ -41,26 +56,87 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="container">
 		<div class="row">
-			<div class="col-12 comment-section">
-				<h3>Commentaires</h3>
-				<div class="col-12">
-					{% if app.user.username is defined%}
-						<div class="col-12">
-							{{ form_start(comForm)}}
-							{{ form_row(comForm.content)}}<br>
-							<button type="submit" class="btn btn-primary">Publier</button>
-							{{ form_end(comForm)}}
-						{% endif %}
-						{% for message in messages %}
-							<div class="col-12">
-								<strong>{{message.users.username}}</strong>
-								<i class="grey-text">posté le
-									{{message.date|date('d-m-Y H:i:s')}}</i>
-								<p>{{message.content}}</p>
-							{% endfor %}
-						</div>
+			<div class="col-12 text-center">
+				<h3>
+					<i class="bi bi-shield-fill">
+						{{heroes.name}}
+						est counter par :</i>
+
+				</h3>
+			</div>
+			{% if isCountered != null %}
+				{% for iCountered in isCountered %}
+
+					<div class="card col-3 mh-500 d-flex align-items-stretch wrap-heroe">
+						<a href="{{ path('app_guide',{slug: iCountered.counter.slug}) }}" class=" text-decoration-none">
+							{% if iCountered.counter.illustrations.medias.name  is defined %}
+								<img class="card-img-top" src="{{asset('/uploads/medias/'~ iCountered.counter.illustrations.medias.name)}}" alt="Card image cap">
+							{% else %}
+								<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
+							{% endif %}
+							<div class="card-title text-center">
+								<strong>
+									<h3>{{iCountered.counter.name}}</h3>
+								</strong>
+							</div>
+						</a>
 					</div>
+				{% endfor %}
+			{% endif %}
+		</h3>
+	</div>
+	<div class="row">
+		<div class="col-12 text-center">
+			<h3>
+				<i class="bi bi-shield-fill">
+					{{heroes.name}}
+					counter :</i>
+
+			</h3>
+		</div>
+		{% if counters != null %}
+
+			{% for counter in counters %}
+				<div class="card col-3 mh-500 d-flex align-items-stretch wrap-heroe">
+					<a href="{{ path('app_guide',{slug: counter.isCountered.slug}) }}" class=" text-decoration-none">
+						{% if counter.isCountered.illustrations.medias.name  is defined %}
+							<img class="card-img-top" src="{{asset('/uploads/medias/'~ counter.isCountered.illustrations.medias.name)}}" alt="Card image cap">
+						{% else %}
+							<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
+						{% endif %}
+						<div class="card-title text-center">
+							<strong>
+								<h3>{{counter.isCountered.name}}</h3>
+							</strong>
+						</div>
+					</a>
 				</div>
-			{% endblock %}
+			{% endfor %}
+		{% endif %}
+	</div>
+</h3>
+<br>
+<div class="col-12 comment-section">
+	<h3>Commentaires</h3>
+	<div class="col-12">
+		{% if app.user.username is defined%}
+			<div class="col-12">
+				{{ form_start(comForm)}}
+				{{ form_row(comForm.content)}}<br>
+				<button type="submit" class="btn btn-primary">Publier</button>
+				{{ form_end(comForm)}}
+			{% endif %}
+			{% for message in messages %}
+				<div class="col-12">
+					<strong>{{message.users.username}}</strong>
+					<i class="grey-text">posté le
+						{{message.date|date('d-m-Y H:i:s')}}</i>
+					<p>{{message.content}}</p>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

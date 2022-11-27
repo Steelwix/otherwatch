@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+use App\Service\MediasManager;
 use App\Entity\Heroes;
 use App\Entity\Illustrations;
 use App\Entity\Medias;
 use App\Entity\Messages;
 use App\Form\CommentaryFormType;
 use App\Form\CreateHeroeFormType;
+use App\Repository\CountersRepository;
 use App\Repository\HeroesRepository;
+use App\Repository\IllustrationsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,25 +21,16 @@ use Symfony\Component\String\UnicodeString;
 
 class HeroesController extends AbstractController
 {
+
     #[Route('/create/heroe', name: 'app_new_heroe')]
-    public function createHeroe(HeroesRepository $heroesRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function createHeroe(HeroesRepository $heroesRepository, MediasManager $mediasManager, Request $request, EntityManagerInterface $entityManager): Response
     {
         $heroes = new Heroes;
         $form = $this->createForm(CreateHeroeFormType::class, $heroes);
         $form->handleRequest($request);
         if ($form->isSubmitted() and $form->isValid()) {
-            $medias = $form->get('medias')->getData();
-            $mediasname = md5(uniqid()) . '.' . $medias->guessExtension();
-            $medias->move(
-                $this->getParameter('media_directory'),
-                $mediasname
-            );
-            $mds = new Medias();
-            $mds->setName($mediasname);
-            $heroes->addMedia($mds);
-            $illu = new Illustrations();
-            $illu->setMedias($mds);
-            $heroes->setIllustrations($illu);
+            $mediasManager->newIllustration($form->get('medias')->getData(), $heroes);
+
             $date = new \DateTime('@' . strtotime('now'));
             $heroes->setCreationDate($date);
             $heroesName = $form->get('name')->getData();
@@ -56,10 +50,13 @@ class HeroesController extends AbstractController
             ]
         );
     }
-    #[Route('/heroe/{slug}', name: 'app_guide')]
-    public function guidePage(Heroes $heroes, HeroesRepository $heroesRepository, Request $request, EntityManagerInterface $entityManager): Response
-    {
 
+    #[Route('/heroe/{slug}', name: 'app_guide')]
+    public function guidePage(Heroes $heroes, CountersRepository $countersRepository, HeroesRepository $heroesRepository, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $isCountered = $countersRepository->findByIsCountered($heroes);
+
+        $counters = $countersRepository->findByCounter($heroes);
         $abilities = $heroes->getAbilities();
         $messages = $heroes->getMessages();
         $newMessage = new Messages();
@@ -77,6 +74,58 @@ class HeroesController extends AbstractController
             return $this->redirectToRoute('app_guide', ['slug' => $currentSlug]);
         }
 
-        return $this->render('heroes/heroepage.html.twig', ['heroes' => $heroes, 'abilities' => $abilities, 'messages' => $messages, 'comForm' => $form->createView()]);
+        return $this->render('heroes/heroepage.html.twig', [
+            'heroes' => $heroes, 'abilities' => $abilities, 'messages' => $messages,
+            'isCountered' => $isCountered, 'counters' => $counters, 'comForm' => $form->createView()
+        ]);
+    }
+    #[Route('/modify/heroe/{id}', name: 'app_modify_heroe')]
+    public function modifyHeroe(Heroes $heroes, Request $request, MediasManager $mediasManager, IllustrationsRepository $illustrationsRepository, EntityManagerInterface $entityManager)
+    {
+        $form = $this->createForm(CreateHeroeFormType::class, $heroes);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() and $form->isValid()) {
+            if ($form->get('medias')->getData() != null) {
+                $oldIllustration = $illustrationsRepository->findByHeroes($heroes);
+                $entityManager->remove($oldIllustration);
+                $mediasManager->newIllustration($form->get('medias')->getData(), $heroes);
+            }
+
+            $date = new \DateTime('@' . strtotime('now'));
+            $heroes->setModificationDate($date);
+            $heroesName = $form->get('name')->getData();
+            $heroesNameNoSpace = $heroesName ? new UnicodeString(str_replace(' ', '-', $heroesName)) : null;
+            $heroesSlug = strtolower($heroesNameNoSpace);
+            $heroes->setSlug($heroesSlug);
+            $entityManager->persist($heroes);
+            $entityManager->flush();
+            $currentSlug = $heroes->getSlug();
+            return $this->redirectToRoute('app_guide', ['slug' => $currentSlug]);
+        }
+        return $this->render('heroes/modify_heroes.html.twig', [
+            'heroes' => $heroes,
+            'HeroeForm' => $form->createView(), 'heroes' => $heroes
+        ]);
+    }
+    #[Route('/delete/heroe/{id}', name: 'app_delete_heroe')]
+    public function deleteHeroe(Heroes $heroes, Request $request, MediasManager $mediasManager, IllustrationsRepository $illustrationsRepository, EntityManagerInterface $entityManager)
+    {
+        $illustrations = $heroes->getIllustrations();
+        $abilities = $heroes->getAbilities();
+        $medias = $heroes->getMedias();
+        foreach ($illustrations as $illustration) {
+            $entityManager->remove($illustration);
+        }
+        foreach ($abilities as $ability) {
+            $spellIcon = $ability->getSpellsIcons();
+            $entityManager->remove($spellIcon);
+            $entityManager->remove($ability);
+        }
+        foreach ($medias as $media) {
+            $entityManager->remove($media);
+        }
+        $entityManager->remove($heroes);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_home');
     }
 }

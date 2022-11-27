@@ -17,12 +17,15 @@
 						<a class="nav-link" href="{{ path('app_new_ability') }}">Créer une abilité</a>
 					</li>
 					<li class="nav-item">
+						<a class="nav-link" href="{{ path('app_create_counter') }}">Créer un Counter</a>
+					</li>
+					<li class="nav-item">
 						<a class="nav-link" href="">{{ app.user.username }}
 
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="">Se déconnecter</a>
+						<a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
 					</li>
 
 				{% else %}

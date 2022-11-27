@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Heroes;
+use App\Service\MessageGenerator;
 use App\Repository\HeroesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +16,9 @@ class MainController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function homepage(HeroesRepository $heroesRepository): Response
     {
+
         return $this->render('main/index.html.twig', [
+
             'heroes' => $heroesRepository->findBy(
                 [],
                 ['name' => 'asc']
