@@ -21,6 +21,9 @@ class Roles
     #[ORM\OneToMany(mappedBy: 'role', targetEntity: Heroes::class)]
     private Collection $heroes;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $roleIcons = null;
+
     public function __construct()
     {
         $this->heroes = new ArrayCollection();
@@ -69,6 +72,18 @@ class Roles
                 $hero->setRole(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRoleIcons(): ?string
+    {
+        return $this->roleIcons;
+    }
+
+    public function setRoleIcons(?string $roleIcons): self
+    {
+        $this->roleIcons = $roleIcons;
 
         return $this;
     }

@@ -3,42 +3,82 @@
 
 {% block body %}
 	<div class="container">
-		<div class="row">
+		<div class="row g-2">
 			<div class="col-12 text-center">
 				<h1>
 					<i>OTHERWATCH</i>
 				</h1>
 			</div>
-			<div class="col-12 text-center">
-				<h3>
-					<i class="bi bi-shield-fill">
-						TANK</i>
+			<div class="card bg-dark col-3 text-center">
+				<a id="showall" class="text-decoration-none link-light wrap-heroe">
+					<h3>
+						<i>
+							TOUT
+						</i>
+					</h3>
+				</a>
+			</div>
+			<div class="card bg-dark col-3 text-center">
+				<a class="showSingle text-decoration-none link-light wrap-heroe" target="1">
+					<h3>
+						<i class="bi bi-shield-fill">
+							TANK</i>
 
-				</h3>
+					</h3>
+				</a>
+			</div>
+			<div class="card bg-dark col-3 text-center">
+				<a class="showSingle text-decoration-none link-light wrap-heroe" target="2">
+					<h3>
+						<i class="bi bi-pentagon-fill">
+							DEGATS</i>
+
+					</h3>
+				</a>
+			</div>
+			<div class="card bg-dark col-3 text-center ">
+				<a class="showSingle text-decoration-none link-light wrap-heroe" target="3">
+					<h3>
+						<i class="bi bi-heart-fill">
+							SOUTIEN</i>
+					</h3>
+				</a>
 			</div>
 
-			{% for heroe in heroes %}
-				{% if heroe.role.name == "Tank" %}
-					<div class="card col-3 mh-500 d-flex align-items-stretch wrap-heroe">
-						<a href="{{ path('app_guide',{slug: heroe.slug}) }}" class=" text-decoration-none">
-							{% if heroe.illustrations.medias.name  is defined %}
-								<img class="card-img-top" src="{{asset('/uploads/medias/'~ heroe.illustrations.medias.name)}}" alt="Card image cap">
-							{% else %}
-								<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
-							{% endif %}
-							<div class="card-title text-center">
+			<div class=" row g-2 cnt">
+				{% for heroe in heroes %}
 
-								<strong>
+					{% if heroe.role.name == "Tank" %}
+						<div class="div1 targetDiv card bg-dark text-bg-dark col-3 wrap-heroe ">
+						{% else %}
+							{% if heroe.role.name == "Offense" %}
+								<div class="div2 targetDiv card bg-dark text-bg-dark col-3 wrap-heroe ">
+								{% else %}
+									{% if heroe.role.name == "Support" %}
+										<div class="div3 targetDiv card bg-dark text-bg-dark col-3 wrap-heroe ">
+										{% endif %}
+									{% endif %}
+								{% endif %}
+								<a href="{{ path('app_guide',{slug: heroe.slug}) }}" class=" text-decoration-none link-light">
+									{% if heroe.illustrations.medias.name  is defined %}
+										<img class="card-img-top" src="{{asset('/uploads/medias/'~ heroe.illustrations.medias.name)}}" alt="Card image cap">
+									{% else %}
+										<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
+									{% endif %}
+									<div class="card-title text-center">
 
-									<h3>{{heroe.name}}</h3>
-								</strong>
+										<strong>
+
+											<h3>{{heroe.name}}</h3>
+										</strong>
 
 
+									</div>
+								</a>
 							</div>
-						</a>
+
+						{% endfor %}
 					</div>
-				{% endif %}
-			{% endfor %}
-		</div>
-	</div>
-{% endblock %}
+				</div>
+			</div>
+		{% endblock %}

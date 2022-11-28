@@ -52,11 +52,18 @@ class HeroesController extends AbstractController
     }
 
     #[Route('/heroe/{slug}', name: 'app_guide')]
-    public function guidePage(Heroes $heroes, CountersRepository $countersRepository, HeroesRepository $heroesRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function guidePage(Heroes $heroes, HeroesRepository $heroesRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $isCountered = $countersRepository->findByIsCountered($heroes);
-
-        $counters = $countersRepository->findByCounter($heroes);
+        $counters = $heroes->getCounter();
+        $allHeroes = $heroesRepository->findAll();
+        $isCountered = [];
+        foreach ($allHeroes as $heroe) {
+            foreach ($heroe->getCounter() as $heroeGetCounter) {
+                if ($heroeGetCounter == $heroes) {
+                    $isCountered[] = $heroe;
+                }
+            }
+        }
         $abilities = $heroes->getAbilities();
         $messages = $heroes->getMessages();
         $newMessage = new Messages();
@@ -73,11 +80,9 @@ class HeroesController extends AbstractController
             $currentSlug = $heroes->getSlug();
             return $this->redirectToRoute('app_guide', ['slug' => $currentSlug]);
         }
-
-        return $this->render('heroes/heroepage.html.twig', [
-            'heroes' => $heroes, 'abilities' => $abilities, 'messages' => $messages,
-            'isCountered' => $isCountered, 'counters' => $counters, 'comForm' => $form->createView()
-        ]);
+        $returnValue = compact('heroes', 'abilities', 'messages', 'counters', 'isCountered');
+        $returnValue['comForm'] =  $form->createView();
+        return $this->render('heroes/heroepage.html.twig', $returnValue);
     }
     #[Route('/modify/heroe/{id}', name: 'app_modify_heroe')]
     public function modifyHeroe(Heroes $heroes, Request $request, MediasManager $mediasManager, IllustrationsRepository $illustrationsRepository, EntityManagerInterface $entityManager)
