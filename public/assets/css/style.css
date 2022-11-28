@@ -16,6 +16,7 @@
     margin: auto;
     width: 5vw;
     height: 10vh;
+    border: solid #1b1b1b 1px;
 }
 
 .wrap-spell:hover {
@@ -23,6 +24,10 @@
     width: 5vw;
     height: 10vh;
     border: solid #00eeff 1px;
+}
+
+.wrap-heroe {
+    border: solid #1b1b1b 1px;
 }
 
 .wrap-heroe:hover {

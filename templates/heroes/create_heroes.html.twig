@@ -9,13 +9,16 @@
 			<div class="col-12 text-center">
 				<h1>Créer un héros</h1>
 			</div>
-			<div class="card col-10 col-md-9 col-lg-6 mx-auto text-center"><br>
-				{{ form_start(HeroeForm)}}<br>
-				{{ form_row(HeroeForm.name)}}<br>
-				{{ form_row(HeroeForm.description)}}<br>
-				{{ form_row(HeroeForm.role)}}<br>
-				{{ form_row(HeroeForm.medias)}}<br>
-				<button type="submit" class="btn btn-primary btn-lg">Créer</button><br><br>
+			<div class="card bg-dark col-10 col-md-9 col-lg-6 mx-auto text-center">
+				{{ form_start(HeroeForm)}}
+				{{ form_row(HeroeForm.name)}}
+				{{ form_row(HeroeForm.description)}}
+				{{ form_row(HeroeForm.role)}}
+
+				{{ form_row(HeroeForm.counter)}}
+
+				{{ form_row(HeroeForm.medias)}}
+				<button type="submit" class="btn btn-primary btn-lg">Créer</button>
 				{{ form_end(HeroeForm)}}
 			</div>
 		</div>
