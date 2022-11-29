@@ -4,6 +4,16 @@
     object-fit: cover;
 }
 
+
+.heroe-title {
+    font-size: 100px;
+}
+
+.heroe-page {
+    border: solid #1b1b1b 1px;
+}
+
+
 .spell-row {
     display: flex;
     justify-content: space-evenly;
@@ -57,6 +67,7 @@ img {
     width: 100%;
 
     display: none;
+    background-color: rgba(75, 75, 75, 0.5);
 }
 
 .comment-section {

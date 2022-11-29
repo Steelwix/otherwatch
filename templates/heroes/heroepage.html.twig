@@ -15,23 +15,28 @@
 
 					</a>
 				</div>
-
 			{% endif %}
-			<div class="col-12 text-center">
-				<h1>
+		</row>
+		<div class="row heroe-page">
+			<div class="col-3">
+				<h1 class="display-1">
 					<i>{{heroes.name}}</i>
 
 				</h1>
 			</div>
-
+			<div class="col-9">
+				<img class="img-fluid mx-auto d-block" src="{{asset('/uploads/medias/'~ heroes.illustrations.medias.name)}}" alt="Card image cap"></div>
 			<div class="col-12">
 				<p>{{heroes.description}}</p>
 			</div>
-			<div class="col-12 text-center">
-				<h3>
-					<i>Capacités</i>
-				</h3>
-			</div>
+		</div>
+		<div class="col-12 text-center">
+			<h3>
+				<i>Capacités</i>
+			</h3>
+		</div>
+
+		<div class="row">
 			<div class="spell-row">
 				{% for ability in abilities %}
 					<div class="">
@@ -70,7 +75,7 @@
 			{% if counters is not same as null %}
 				{% for counter in counters %}
 
-					<div class="card bg-dark col-3 mh-500 d-flex align-items-stretch wrap-heroe">
+					<div class="card bg-dark col-2 mh-500 d-flex align-items-stretch wrap-heroe">
 						<a href="{{ path('app_guide',{slug: counter.slug}) }}" class=" text-decoration-none link-light">
 							{% if counter.illustrations.medias.name  is defined %}
 								<img class="card-img-top" src="{{asset('/uploads/medias/'~ counter.illustrations.medias.name)}}" alt="Card image cap">
@@ -97,8 +102,8 @@
 				{% if isCountered is not same as null %}
 					{% for countered in isCountered %}
 
-						<div class="card col-3 mh-500 d-flex align-items-stretch wrap-heroe">
-							<a href="{{ path('app_guide',{slug: countered.slug}) }}" class=" text-decoration-none">
+						<div class="card bg-dark col-2 mh-500 d-flex align-items-stretch wrap-heroe">
+							<a href="{{ path('app_guide',{slug: countered.slug}) }}" class=" text-decoration-none link-light">
 								{% if countered.illustrations.medias.name  is defined %}
 									<img class="card-img-top" src="{{asset('/uploads/medias/'~ countered.illustrations.medias.name)}}" alt="Card image cap">
 								{% else %}
