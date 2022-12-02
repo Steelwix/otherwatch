@@ -21,8 +21,8 @@ class Roles
     #[ORM\OneToMany(mappedBy: 'role', targetEntity: Heroes::class)]
     private Collection $heroes;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $roleIcons = null;
+    #[ORM\OneToOne(mappedBy: 'role', cascade: ['persist', 'remove'])]
+    private ?RoleIcon $roleIcon = null;
 
     public function __construct()
     {
@@ -76,14 +76,24 @@ class Roles
         return $this;
     }
 
-    public function getRoleIcons(): ?string
+    public function getRoleIcon(): ?RoleIcon
     {
-        return $this->roleIcons;
+        return $this->roleIcon;
     }
 
-    public function setRoleIcons(?string $roleIcons): self
+    public function setRoleIcon(?RoleIcon $roleIcon): self
     {
-        $this->roleIcons = $roleIcons;
+        // unset the owning side of the relation if necessary
+        if ($roleIcon === null && $this->roleIcon !== null) {
+            $this->roleIcon->setRole(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($roleIcon !== null && $roleIcon->getRole() !== $this) {
+            $roleIcon->setRole($this);
+        }
+
+        $this->roleIcon = $roleIcon;
 
         return $this;
     }
