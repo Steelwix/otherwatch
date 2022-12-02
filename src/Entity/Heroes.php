@@ -53,6 +53,9 @@ class Heroes
     #[ORM\ManyToMany(targetEntity: self::class)]
     private Collection $counter;
 
+    #[ORM\OneToOne(mappedBy: 'heroe', cascade: ['persist', 'remove'])]
+    private ?HeroeBackground $heroeBackground = null;
+
 
     public function __construct()
     {
@@ -302,6 +305,28 @@ class Heroes
     public function removeCounter(self $counter): self
     {
         $this->counter->removeElement($counter);
+
+        return $this;
+    }
+
+    public function getHeroeBackground(): ?HeroeBackground
+    {
+        return $this->heroeBackground;
+    }
+
+    public function setHeroeBackground(?HeroeBackground $heroeBackground): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($heroeBackground === null && $this->heroeBackground !== null) {
+            $this->heroeBackground->setHeroe(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($heroeBackground !== null && $heroeBackground->getHeroe() !== $this) {
+            $heroeBackground->setHeroe($this);
+        }
+
+        $this->heroeBackground = $heroeBackground;
 
         return $this;
     }
