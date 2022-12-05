@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
 
 #[ORM\Entity(repositoryClass: HeroesRepository::class)]
 class Heroes
@@ -56,6 +57,10 @@ class Heroes
     #[ORM\OneToOne(mappedBy: 'heroe', cascade: ['persist', 'remove'])]
     private ?HeroeBackground $heroeBackground = null;
 
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'synergy')]
+    #[JoinTable(name: "heroes_synergy")]
+    private Collection $synergy;
+
 
     public function __construct()
     {
@@ -64,6 +69,7 @@ class Heroes
         $this->videos = new ArrayCollection();
         $this->abilities = new ArrayCollection();
         $this->counter = new ArrayCollection();
+        $this->synergy = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -327,6 +333,30 @@ class Heroes
         }
 
         $this->heroeBackground = $heroeBackground;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getSynergy(): Collection
+    {
+        return $this->synergy;
+    }
+
+    public function addSynergy(self $synergy): self
+    {
+        if (!$this->synergy->contains($synergy)) {
+            $this->synergy->add($synergy);
+        }
+
+        return $this;
+    }
+
+    public function removeSynergy(self $synergy): self
+    {
+        $this->synergy->removeElement($synergy);
 
         return $this;
     }

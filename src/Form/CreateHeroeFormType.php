@@ -54,7 +54,7 @@ class CreateHeroeFormType extends AbstractType
                 ]
             ])
             ->add('counter', EntityType::class, [
-                'label' => 'Votre personne va être contré par :',
+                'label' => 'Votre personnage va être contré par :',
                 'class' => Heroes::class,
                 'choice_label' => 'name',
                 'expanded' => true,
