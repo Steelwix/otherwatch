@@ -5,17 +5,18 @@
 
 {% block body %}
 	<section class="container">
-		<div class="row">
+		<div class="row ">
 			<div class="col-12 text-center">
 				<h1>Modifier un héros</h1>
 			</div>
-			<div class="card col-10 col-md-9 col-lg-6 mx-auto text-center"><br>
+			<div class="card col-10 col-md-9 col-lg-6 mx-auto text-center bg-dark"><br>
 				{{ form_start(HeroeForm)}}<br>
 				{{ form_row(HeroeForm.name)}}<br>
 				{{ form_row(HeroeForm.description)}}<br>
 				{{ form_row(HeroeForm.role)}}<br>
 				{{ form_row(HeroeForm.counter)}}
 				{{ form_row(HeroeForm.medias)}}<br>
+				{{ form_row(HeroeForm.heroeBackground)}}<br>
 				<button type="submit" class="btn btn-primary btn-lg">Modifier</button><br><br>
 				{{ form_end(HeroeForm)}}
 			</div>

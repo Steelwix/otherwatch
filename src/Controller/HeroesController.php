@@ -9,6 +9,7 @@ use App\Entity\Medias;
 use App\Entity\Messages;
 use App\Form\CommentaryFormType;
 use App\Form\CreateHeroeFormType;
+use App\Form\ModifyHeroeFormType;
 use App\Repository\CountersRepository;
 use App\Repository\HeroesRepository;
 use App\Repository\IllustrationsRepository;
@@ -87,13 +88,16 @@ class HeroesController extends AbstractController
     #[Route('/modify/heroe/{id}', name: 'app_modify_heroe')]
     public function modifyHeroe(Heroes $heroes, Request $request, MediasManager $mediasManager, IllustrationsRepository $illustrationsRepository, EntityManagerInterface $entityManager)
     {
-        $form = $this->createForm(CreateHeroeFormType::class, $heroes);
+        $form = $this->createForm(ModifyHeroeFormType::class, $heroes);
         $form->handleRequest($request);
         if ($form->isSubmitted() and $form->isValid()) {
             if ($form->get('medias')->getData() != null) {
                 $oldIllustration = $illustrationsRepository->findByHeroes($heroes);
                 $entityManager->remove($oldIllustration);
                 $mediasManager->newIllustration($form->get('medias')->getData(), $heroes);
+            }
+            if ($form->get('heroeBackground')->getData() != null) {
+                $mediasManager->newBackground($form->get('heroeBackground')->getData(), $heroes);
             }
 
             $date = new \DateTime('@' . strtotime('now'));
@@ -109,7 +113,7 @@ class HeroesController extends AbstractController
         }
         return $this->render('heroes/modify_heroes.html.twig', [
             'heroes' => $heroes,
-            'HeroeForm' => $form->createView(), 'heroes' => $heroes
+            'HeroeForm' => $form->createView()
         ]);
     }
     #[Route('/delete/heroe/{id}', name: 'app_delete_heroe')]

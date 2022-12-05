@@ -25,7 +25,9 @@
 				</h1>
 			</div>
 			<div class="col-9">
-				<img class="img-fluid mx-auto d-block rounded" src="{{asset('/uploads/medias/'~ heroes.heroeBackground.media.name)}}" alt="Card image cap"></div>
+				{% if heroes.heroeBackground.media.name is defined %}
+					<img class="img-fluid mx-auto d-block rounded" src="{{asset('/uploads/medias/'~ heroes.heroeBackground.media.name)}}" alt="Card image cap"></div>
+			{% endif %}
 			<div class="col-12">
 				<p>{{heroes.description}}</p>
 			</div>
