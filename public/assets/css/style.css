@@ -4,6 +4,9 @@
     object-fit: cover;
 }
 
+.roleIcon {
+    filter: invert(1);
+}
 
 .heroe-title {
     font-size: 100px;
