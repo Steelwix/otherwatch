@@ -122,26 +122,55 @@
 				{% endif %}
 			</h3>
 		</div>
-	</div>
-</h3>
-<div class="col-12">
-	<h3>Commentaires</h3>
 
-	{% if app.user.username is defined%}
-		<div class="col-12">
-			{{ form_start(comForm)}}
-			{{ form_row(comForm.content)}}
-			<button type="submit" class="btn btn-primary">Publier</button>
-			{{ form_end(comForm)}}
-		</div><br>
-	{% endif %}
-	{% for message in messages %}
-		<div class="col-12">
-			<strong>{{message.users.username}}</strong>
-			<i class="grey-text">posté le
-				{{message.date|date('d-m-Y H:i:s')}}</i>
-			<p>{{message.content}}</p>
-			<br>
-		{% endfor %}<br>
+		<div class="row">
+			<div class="col-12 text-center">
+				<h3>
+					<i class="bi bi-shield-fill">
+						{{heroes.name}}
+						synergise avec :</i>
+					{% if synergies is not same as null %}
+						{% for synergy in synergies %}
+
+							<div class="card bg-dark col-2 mh-500 d-flex align-items-stretch wrap-heroe">
+								<a href="{{ path('app_guide',{slug: synergy.slug}) }}" class=" text-decoration-none link-light">
+									{% if synergy.illustrations.medias.name  is defined %}
+										<img class="card-img-top" src="{{asset('/uploads/medias/'~ synergy.illustrations.medias.name)}}" alt="Card image cap">
+									{% else %}
+										<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
+									{% endif %}
+									<div class="card-title text-center">
+										<strong>
+											<h3>{{synergy.name}}</h3>
+										</strong>
+									</div>
+								</a>
+							</div>
+						{% endfor %}
+					{% endif %}
+				</h3>
+			</div>
+		</div>
+	</h3>
+	<div class="col-12">
+		<h3>Commentaires</h3>
+
+		{% if app.user.username is defined%}
+			<div class="col-12">
+				{{ form_start(comForm)}}
+				{{ form_row(comForm.content)}}
+				<button type="submit" class="btn btn-primary">Publier</button>
+				{{ form_end(comForm)}}
+			</div><br>
+		{% endif %}
+		{% for message in messages %}
+			<div class="col-12">
+				<strong>{{message.users.username}}</strong>
+				<i class="grey-text">posté le
+					{{message.date|date('d-m-Y H:i:s')}}</i>
+				<p>{{message.content}}</p>
+				<br>
+			{% endfor %}<br>
+		</div>
 	</div>
-</div></div>{% endblock %}
+</div>{% endblock %}

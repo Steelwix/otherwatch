@@ -56,12 +56,18 @@ class HeroesController extends AbstractController
     public function guidePage(Heroes $heroes, HeroesRepository $heroesRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $counters = $heroes->getCounter();
+        $synergies = $heroes->getSynergy();
         $allHeroes = $heroesRepository->findAll();
         $isCountered = [];
         foreach ($allHeroes as $heroe) {
+            foreach ($heroe->getSynergy() as $synergie) {
+                if ($synergie == $heroes) {
+                    $synergies[] = $heroe;
+                }
+            }
             foreach ($heroe->getCounter() as $heroeGetCounter) {
                 if ($heroeGetCounter == $heroes) {
-                    $isCountered[] = $heroe;
+                    $synergies[] = $heroe;
                 }
             }
         }
@@ -81,7 +87,7 @@ class HeroesController extends AbstractController
             $currentSlug = $heroes->getSlug();
             return $this->redirectToRoute('app_guide', ['slug' => $currentSlug]);
         }
-        $returnValue = compact('heroes', 'abilities', 'messages', 'counters', 'isCountered');
+        $returnValue = compact('heroes', 'abilities', 'messages', 'counters', 'isCountered', 'synergies');
         $returnValue['comForm'] =  $form->createView();
         return $this->render('heroes/heroepage.html.twig', $returnValue);
     }
