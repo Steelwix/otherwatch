@@ -67,15 +67,16 @@
 
 	<div class="container">
 		<div class="row">
-			<div class="col-12 text-center">
-				<h3>
-					<i class="bi bi-shield-fill">
-						{{heroes.name}}
-						est counter par :</i>
+			{% if counters is not empty %}
+				<div class="col-12 text-center">
+					<h3>
+						<i class="bi bi-shield-fill">
+							{{heroes.name}}
+							est counter par :</i>
 
-				</h3>
-			</div>
-			{% if counters is not same as null %}
+					</h3>
+				</div>
+
 				{% for counter in counters %}
 
 					<div class="card bg-dark col-2 mh-500 d-flex align-items-stretch wrap-heroe">
@@ -97,81 +98,82 @@
 		</h3>
 	</div>
 	<div class="row">
-		<div class="col-12 text-center">
-			<h3>
-				<i class="bi bi-shield-fill">
-					{{heroes.name}}
-					counter :</i>
-				{% if isCountered is not same as null %}
-					{% for countered in isCountered %}
+		{% if isCountered != [] %}
+			<div class="col-12 text-center">
+				<h3>
+					<i class="bi bi-shield-fill">
+						{{heroes.name}}
 
-						<div class="card bg-dark col-2 mh-500 d-flex align-items-stretch wrap-heroe">
-							<a href="{{ path('app_guide',{slug: countered.slug}) }}" class=" text-decoration-none link-light">
-								{% if countered.illustrations.medias.name  is defined %}
-									<img class="card-img-top" src="{{asset('/uploads/medias/'~ countered.illustrations.medias.name)}}" alt="Card image cap">
-								{% else %}
-									<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
-								{% endif %}
-								<div class="card-title text-center">
-									<strong>
-										<h3>{{countered.name}}</h3>
-									</strong>
-								</div>
-							</a>
-						</div>
-					{% endfor %}
-				{% endif %}
-			</h3>
-		</div>
+						counter :</i>
+				</div>
+				{% for countered in isCountered %}
 
-		<div class="row">
+					<div class="card bg-dark col-2 mh-500 d-flex align-items-stretch wrap-heroe">
+						<a href="{{ path('app_guide',{slug: countered.slug}) }}" class=" text-decoration-none link-light">
+							{% if countered.illustrations.medias.name  is defined %}
+								<img class="card-img-top" src="{{asset('/uploads/medias/'~ countered.illustrations.medias.name)}}" alt="Card image cap">
+							{% else %}
+								<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
+							{% endif %}
+							<div class="card-title text-center">
+								<strong>
+									<h3>{{countered.name}}</h3>
+								</strong>
+							</div>
+						</a>
+					</div>
+				</h3>
+			{% endfor %}
+		{% endif %}
+
+	</div>
+
+	<div class="row">
+		{% if synergies is not empty %}
 			<div class="col-12 text-center">
 				<h3>
 					<i class="bi bi-shield-fill">
 						{{heroes.name}}
 						synergise avec :</i>
-					{% if synergies is not same as null %}
-						{% for synergy in synergies %}
+				</div>
 
-							<div class="card bg-dark col-2 mh-500 d-flex align-items-stretch wrap-heroe">
-								<a href="{{ path('app_guide',{slug: synergy.slug}) }}" class=" text-decoration-none link-light">
-									{% if synergy.illustrations.medias.name  is defined %}
-										<img class="card-img-top" src="{{asset('/uploads/medias/'~ synergy.illustrations.medias.name)}}" alt="Card image cap">
-									{% else %}
-										<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
-									{% endif %}
-									<div class="card-title text-center">
-										<strong>
-											<h3>{{synergy.name}}</h3>
-										</strong>
-									</div>
-								</a>
+				{% for synergy in synergies %}
+
+					<div class="card bg-dark col-2 mh-500 d-flex align-items-stretch wrap-heroe">
+						<a href="{{ path('app_guide',{slug: synergy.slug}) }}" class=" text-decoration-none link-light">
+							{% if synergy.illustrations.medias.name  is defined %}
+								<img class="card-img-top" src="{{asset('/uploads/medias/'~ synergy.illustrations.medias.name)}}" alt="Card image cap">
+							{% else %}
+								<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
+							{% endif %}
+							<div class="card-title text-center">
+								<strong>
+									<h3>{{synergy.name}}</h3>
+								</strong>
 							</div>
-						{% endfor %}
-					{% endif %}
-				</h3>
-			</div>
-		</div>
-	</h3>
-	<div class="col-12">
-		<h3>Commentaires</h3>
-
-		{% if app.user.username is defined%}
-			<div class="col-12">
-				{{ form_start(comForm)}}
-				{{ form_row(comForm.content)}}
-				<button type="submit" class="btn btn-primary">Publier</button>
-				{{ form_end(comForm)}}
-			</div><br>
-		{% endif %}
-		{% for message in messages %}
-			<div class="col-12">
-				<strong>{{message.users.username}}</strong>
-				<i class="grey-text">posté le
-					{{message.date|date('d-m-Y H:i:s')}}</i>
-				<p>{{message.content}}</p>
-				<br>
-			{% endfor %}<br>
-		</div>
+						</a>
+					</div>
+				{% endfor %}
+			{% endif %}
+		</h3>
 	</div>
-</div>{% endblock %}
+</div></h3><div class="col-12">
+<h3>Commentaires</h3>
+
+{% if app.user.username is defined%}
+	<div class="col-12">
+		{{ form_start(comForm)}}
+		{{ form_row(comForm.content)}}
+		<button type="submit" class="btn btn-primary">Publier</button>
+		{{ form_end(comForm)}}
+	</div><br>
+{% endif %}
+{% for message in messages %}
+	<div class="col-12">
+		<strong>{{message.users.username}}</strong>
+		<i class="grey-text">posté le
+			{{message.date|date('d-m-Y H:i:s')}}</i>
+		<p>{{message.content}}</p>
+		<br>
+	{% endfor %}<br>
+</div></div></div>{% endblock %}
