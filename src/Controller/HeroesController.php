@@ -67,7 +67,7 @@ class HeroesController extends AbstractController
             }
             foreach ($heroe->getCounter() as $heroeGetCounter) {
                 if ($heroeGetCounter == $heroes) {
-                    $synergies[] = $heroe;
+                    $isCountered[] = $heroe;
                 }
             }
         }

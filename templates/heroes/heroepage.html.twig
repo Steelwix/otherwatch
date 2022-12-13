@@ -38,10 +38,10 @@
 			</h3>
 		</div>
 
-		<div class="row">
+		<div class="big-spell">
 			<div class="spell-row">
 				{% for ability in abilities %}
-					<div class="">
+					<div>
 						<div class="wrap-spell text-decoration-none">
 							<img class="mx-auto d-block" src="{{asset('/uploads/spellsicons/'~ ability.spellsIcons.name)}}" alt="Card image cap">
 							<div class="spell-name">
@@ -62,6 +62,7 @@
 				{% endfor %}
 			</div>
 		</div>
+
 	</div>
 
 	<div class="container">
