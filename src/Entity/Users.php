@@ -38,9 +38,13 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Messages::class, orphanRemoval: true)]
     private Collection $messages;
 
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: UpdateTicket::class)]
+    private Collection $ticket;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
+        $this->ticket = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -171,6 +175,36 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($message->getUsers() === $this) {
                 $message->setUsers(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UpdateTicket>
+     */
+    public function getTicket(): Collection
+    {
+        return $this->ticket;
+    }
+
+    public function addTicket(UpdateTicket $ticket): self
+    {
+        if (!$this->ticket->contains($ticket)) {
+            $this->ticket->add($ticket);
+            $ticket->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTicket(UpdateTicket $ticket): self
+    {
+        if ($this->ticket->removeElement($ticket)) {
+            // set the owning side to null (unless already changed)
+            if ($ticket->getAuthor() === $this) {
+                $ticket->setAuthor(null);
             }
         }
 
