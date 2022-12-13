@@ -19,6 +19,7 @@ class MainController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function homepage(HeroesRepository $heroesRepository, RolesRepository $rolesRepository): Response
     {
+        $this->getUser()->getRoles();
         return $this->render('main/index.html.twig', [
 
             'heroes' => $heroesRepository->findBy(
