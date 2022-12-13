@@ -19,7 +19,7 @@ class Abilities
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 2000, nullable: true)]
+    #[ORM\Column(length: 10000, nullable: true)]
     private ?string $description = null;
 
     #[ORM\OneToOne(mappedBy: 'ability', cascade: ['persist', 'remove'])]
