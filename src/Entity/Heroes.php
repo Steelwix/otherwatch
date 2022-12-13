@@ -61,6 +61,9 @@ class Heroes
     #[JoinTable(name: "heroes_synergy")]
     private Collection $synergy;
 
+    #[ORM\OneToMany(mappedBy: 'heroe', targetEntity: UpdateTicket::class, orphanRemoval: true)]
+    private Collection $ticket;
+
 
     public function __construct()
     {
@@ -70,6 +73,7 @@ class Heroes
         $this->abilities = new ArrayCollection();
         $this->counter = new ArrayCollection();
         $this->synergy = new ArrayCollection();
+        $this->ticket = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -357,6 +361,36 @@ class Heroes
     public function removeSynergy(self $synergy): self
     {
         $this->synergy->removeElement($synergy);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UpdateTicket>
+     */
+    public function getTicket(): Collection
+    {
+        return $this->ticket;
+    }
+
+    public function addTicket(UpdateTicket $ticket): self
+    {
+        if (!$this->ticket->contains($ticket)) {
+            $this->ticket->add($ticket);
+            $ticket->setHeroe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTicket(UpdateTicket $ticket): self
+    {
+        if ($this->ticket->removeElement($ticket)) {
+            // set the owning side to null (unless already changed)
+            if ($ticket->getHeroe() === $this) {
+                $ticket->setHeroe(null);
+            }
+        }
 
         return $this;
     }

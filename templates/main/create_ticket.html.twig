@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un ticket
+{% endblock %}
+
+{% block body %}
+	<section class="container">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h1>Créer un ticket</h1>
+			</div>
+			<div class="card bg-dark col-10 col-md-9 col-lg-6 mx-auto text-center">
+				{{ form_start(ticketForm)}}
+				{{ form_row(ticketForm.content)}}
+				{{ form_row(ticketForm.heroe)}}
+				<button type="submit" class="btn btn-primary btn-lg">Soumettre</button>
+				{{ form_end(ticketForm)}}
+			</div>
+		</div>
+	</section>
+{% endblock %}
