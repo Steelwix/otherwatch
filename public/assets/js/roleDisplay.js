@@ -8,7 +8,7 @@ jQuery(function () {
         jQuery('.targetDiv').hide();
 
         jQuery('.cnt').show();
-        jQuery('.div' + $(this).attr('target')).show();
+        jQuery('.role' + $(this).attr('target')).show();
 
 
     });
