@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\UpdateTicketRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,8 +18,9 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/ticket', name: 'app_admin_ticket')]
-    public function adminTicker(): Response
+    public function adminTicker(UpdateTicketRepository $updateTicketRepository): Response
     {
-        return $this->render('admin/ticket.html.twig', []);
+        $tickets = $updateTicketRepository->findAll();
+        return $this->render('admin/ticket.html.twig', ['tickets' => $tickets]);
     }
 }
