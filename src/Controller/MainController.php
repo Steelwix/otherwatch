@@ -36,6 +36,8 @@ class MainController extends AbstractController
         $form = $this->createForm(CreateTicketFormType::class, $updateTicket);
         $form->handleRequest($request);
         if ($form->isSubmitted() and $form->isValid()) {
+            $date = new \DateTimeImmutable('@' . strtotime('now'));
+            $updateTicket->setDate($date);
             $updateTicket->setAuthor($this->getUser());
             $entityManager->persist($updateTicket);
             $entityManager->flush();

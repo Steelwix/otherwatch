@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h1>
+					<i>TICKETS DES UTILISATEURS</i>
+				</h1>
+			</div>
+			<div class="row">
+				{% for ticket in tickets %}
+					<div class="card bg-dark col-3 mh-500 d-flex align-items-stretch">
+						<div class="card-title text-center">
+							<p>
+								<strong>{{ticket.author.username}}</strong>
+								à propos de
+								<strong>{{ticket.heroe.name}}</strong>
+							</p>
+
+							<div class="card-content text-center">
+								<p>{{ticket.content}}</p>
+								<p>envoyé le
+									{{ticket.date|date('d-m-Y')}}
+									à
+									{{ticket.date|date('H:i')}}
+								</p>
+							</div>
+						</div>
+
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}
