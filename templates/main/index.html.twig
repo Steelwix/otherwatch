@@ -49,13 +49,13 @@
 	{% for heroe in heroes %}
 
 		{% if heroe.role.name == "Tank" %}
-			<div class="div1 targetDiv card bg-dark text-bg-dark col-2 wrap-heroe ">
+			<div class="role1 targetDiv card bg-dark text-bg-dark col-2 wrap-heroe ">
 			{% else %}
 				{% if heroe.role.name == "Damage" %}
-					<div class="div2 targetDiv card bg-dark text-bg-dark col-2 wrap-heroe ">
+					<div class="role2 targetDiv card bg-dark text-bg-dark col-2 wrap-heroe ">
 					{% else %}
 						{% if heroe.role.name == "Support" %}
-							<div class="div3 targetDiv card bg-dark text-bg-dark col-2 wrap-heroe ">
+							<div class="role3 targetDiv card bg-dark text-bg-dark col-2 wrap-heroe ">
 							{% endif %}
 						{% endif %}
 					{% endif %}
