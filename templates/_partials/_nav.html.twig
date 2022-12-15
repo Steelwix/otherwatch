@@ -11,6 +11,9 @@
 				</li>
 				{% if  "ROLE_ADMIN" in app.user.roles %}
 					<li class="nav-item">
+						<a class="nav-link" href="{{ path('app_admin') }}">Accès à Blackwatch</a>
+					</li>
+					<li class="nav-item">
 						<a class="nav-link" href="{{ path('app_new_heroe') }}">Créer un héros</a>
 					</li>
 					<li class="nav-item">

@@ -2,10 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Heroes;
 use App\Entity\UpdateTicket;
 use App\Form\CreateTicketFormType;
-use App\Service\MessageGenerator;
 use App\Repository\HeroesRepository;
 use App\Repository\RolesRepository;
 use Doctrine\ORM\EntityManagerInterface;
