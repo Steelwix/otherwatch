@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+	<div class="container">
+		<div class="row g-2">
+			<div class="col-12 text-center">
+				<h1>
+					<i>OTHERWATCH</i>
+				</h1>
+			</div>
+			<div class="card bg-dark col-3 text-center">
+				<a id="showall" class="text-decoration-none link-light wrap-heroe">
+					<h3>
+
+						TOUT
+
+					</h3>
+				</a>
+			</div>
+			<div class="card bg-dark col-3 text-center">
+				<a class="showSingle text-decoration-none link-light wrap-heroe" target="1">
+					<h3>
+						<img class="roleIcon" src="{{asset('/uploads/medias/'~ "Dark_Circle_Tank.svg")}}" alt=""></img>
+					TANK
+
+				</h3>
+			</a>
+		</div>
+		<div class="card bg-dark col-3 text-center">
+			<a class="showSingle text-decoration-none link-light wrap-heroe" target="2">
+				<h3>
+					<img class="roleIcon" src="{{asset('/uploads/medias/'~ "Dark_Circle_Damage.svg")}}"></img>
+				DEGATS
+
+			</h3>
+		</a>
+	</div>
+	<div class="card bg-dark col-3 text-center ">
+		<a class="showSingle text-decoration-none link-light wrap-heroe" target="3">
+			<h3>
+				<img class="roleIcon" src="{{asset('/uploads/medias/'~ "Dark_Circle_Support.svg")}}"></img>
+			SOUTIEN
+		</h3>
+	</a>
+</div>
+
+<div class=" row g-2 cnt">
+	{% for heroe in heroes %}
+
+		{% if heroe.role.name == "Tank" %}
+			<div class="role1 targetDiv card bg-dark text-bg-dark col-2 wrap-heroe ">
+			{% else %}
+				{% if heroe.role.name == "Damage" %}
+					<div class="role2 targetDiv card bg-dark text-bg-dark col-2 wrap-heroe ">
+					{% else %}
+						{% if heroe.role.name == "Support" %}
+							<div class="role3 targetDiv card bg-dark text-bg-dark col-2 wrap-heroe ">
+							{% endif %}
+						{% endif %}
+					{% endif %}
+					<a href="{{ path('app_guide',{slug: heroe.slug}) }}" class=" text-decoration-none link-light">
+						{% if heroe.illustrations.medias.name  is defined %}
+							<img class="card-img-top" src="{{asset('/uploads/medias/'~ heroe.illustrations.medias.name)}}" alt="Card image cap">
+						{% else %}
+							<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
+						{% endif %}
+
+						<a type="button" class="btn btn-dark" href="{{ path('app_modify_heroe',{id: heroe.id}) }}">
+							<i class="bi bi-pen-fill">
+								Modifier</i>
+
+						</a>
+						<a type="button" class="btn btn-dark" href="{{ path('app_delete_heroe',{id: heroe.id}) }}">
+							<i class="bi bi-trash-fill">Supprimer</i>
+
+						</a>
+
+						<div class="card-title text-center">
+
+							<strong>
+								<img class="roleIcon" src="{{asset('/uploads/medias/'~ heroe.role.roleIcon.name)}}" alt=""></img>
+
+							<h3>{{heroe.name}}</h3>
+						</strong>
+
+
+					</div>
+				</a>
+			</div>
+
+		{% endfor %}
+	</div>
+</div></div>{% endblock %}
