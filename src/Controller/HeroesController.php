@@ -14,6 +14,7 @@ use App\Repository\CountersRepository;
 use App\Repository\HeroesRepository;
 use App\Repository\IllustrationsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,7 @@ class HeroesController extends AbstractController
 {
 
     #[Route('/create/heroe', name: 'app_new_heroe')]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour intéragir avec cette route')]
     public function createHeroe(HeroesRepository $heroesRepository, MediasManager $mediasManager, Request $request, EntityManagerInterface $entityManager): Response
     {
         $heroes = new Heroes;
@@ -92,6 +94,7 @@ class HeroesController extends AbstractController
         return $this->render('heroes/heroepage.html.twig', $returnValue);
     }
     #[Route('/modify/heroe/{id}', name: 'app_modify_heroe')]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour intéragir avec cette route')]
     public function modifyHeroe(Heroes $heroes, Request $request, MediasManager $mediasManager, IllustrationsRepository $illustrationsRepository, EntityManagerInterface $entityManager)
     {
         $form = $this->createForm(ModifyHeroeFormType::class, $heroes);
@@ -123,6 +126,7 @@ class HeroesController extends AbstractController
         ]);
     }
     #[Route('/delete/heroe/{id}', name: 'app_delete_heroe')]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour intéragir avec cette route')]
     public function deleteHeroe(Heroes $heroes, Request $request, MediasManager $mediasManager, IllustrationsRepository $illustrationsRepository, EntityManagerInterface $entityManager)
     {
         $illustrations = $heroes->getIllustrations();
