@@ -40,7 +40,7 @@
     margin: auto;
     width: 5vw;
     height: 10vh;
-    border: solid #00eeff 1px;
+    border: solid #f99e1a 1px;
     scale: 115%;
 }
 
@@ -49,7 +49,7 @@
 }
 
 .wrap-heroe:hover {
-    border: solid #00eeff 1px;
+    border: solid #f99e1a 1px;
 }
 
 .spell-name {
@@ -85,4 +85,12 @@ img {
 
 .grey-text {
     color: #787879
+}
+
+.overwatch-text {
+    color: #f99e1a
+}
+
+.navbar-color {
+    background-color: #1b1b1b;
 }
