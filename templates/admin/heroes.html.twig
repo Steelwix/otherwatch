@@ -59,36 +59,37 @@
 							{% endif %}
 						{% endif %}
 					{% endif %}
-					<a href="{{ path('app_guide',{slug: heroe.slug}) }}" class=" text-decoration-none link-light">
-						{% if heroe.illustrations.medias.name  is defined %}
-							<img class="card-img-top" src="{{asset('/uploads/medias/'~ heroe.illustrations.medias.name)}}" alt="Card image cap">
-						{% else %}
-							<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
-						{% endif %}
 
-						<a type="button" class="btn btn-dark" href="{{ path('app_modify_heroe',{id: heroe.id}) }}">
-							<i class="bi bi-pen-fill">
-								Modifier</i>
+					{% if heroe.illustrations.medias.name  is defined %}
+						<img class="card-img-top" src="{{asset('/uploads/medias/'~ heroe.illustrations.medias.name)}}" alt="Card image cap">
+					{% else %}
+						<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
+					{% endif %}
+					<a type="button" class="btn btn-dark" href="{{ path('app_new_ability',{id: heroe.id}) }}">
+						<i class="bi bi-hammer">
+							Capacités</i>
+					</a>
+					<a type="button" class="btn btn-dark" href="{{ path('app_modify_heroe',{id: heroe.id}) }}">
+						<i class="bi bi-pen-fill">
+							Modifier</i>
+					</a>
+					<a type="button" class="btn btn-dark" href="{{ path('app_delete_heroe',{id: heroe.id}) }}">
+						<i class="bi bi-trash-fill">Supprimer</i>
 
-						</a>
-						<a type="button" class="btn btn-dark" href="{{ path('app_delete_heroe',{id: heroe.id}) }}">
-							<i class="bi bi-trash-fill">Supprimer</i>
+					</a>
 
-						</a>
+					<div class="card-title text-center">
 
-						<div class="card-title text-center">
+						<strong>
+							<img class="roleIcon" src="{{asset('/uploads/medias/'~ heroe.role.roleIcon.name)}}" alt=""></img>
 
-							<strong>
-								<img class="roleIcon" src="{{asset('/uploads/medias/'~ heroe.role.roleIcon.name)}}" alt=""></img>
-
-							<h3>{{heroe.name}}</h3>
-						</strong>
+						<h3>{{heroe.name}}</h3>
+					</strong>
 
 
-					</div>
-				</a>
-			</div>
+				</div>
+			</a>
+		</div>
 
-		{% endfor %}
-	</div>
-</div></div>{% endblock %}
+	{% endfor %}
+</div></div></div>{% endblock %}
