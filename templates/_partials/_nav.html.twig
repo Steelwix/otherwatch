@@ -9,15 +9,9 @@
 				<li class="nav-item">
 					<a class="nav-link" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
 				</li>
-				{% if  "ROLE_ADMIN" in app.user.roles %}
+				{% if is_granted('ISADMIN', app.user)  %}
 					<li class="nav-item">
 						<a class="nav-link" href="{{ path('app_admin') }}">Accès à Blackwatch</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{ path('app_new_ability') }}">Créer une abilité</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{ path('app_create_ticket') }}">Soumettre un ticket</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="">{{ app.user.username }}
@@ -27,7 +21,7 @@
 					<li class="nav-item">
 						<a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
 					</li>
-				{% elseif "ROLE_USER" in app.user.roles %}
+				{% elseif is_granted('ISUSER', app.user) %}
 					<li class="nav-item">
 						<a class="nav-link" href="{{ path('app_create_ticket') }}">Soumettre un ticket</a>
 					</li>
