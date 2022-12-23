@@ -6,6 +6,7 @@ use App\Entity\HeroeBackground;
 use App\Entity\Heroes;
 use App\Entity\Illustrations;
 use App\Entity\Medias;
+use App\Entity\ProfilesPictures;
 
 class MediasManager
 
@@ -43,5 +44,19 @@ class MediasManager
         $illu = new HeroeBackground();
         $illu->setMedia($mds);
         $heroes->setHeroeBackground($illu);
+    }
+    public function newProfilePicture($profilePicture, $user)
+    {
+        $medias = $profilePicture;
+        $mediasname = md5(uniqid()) . '.' . $medias->guessExtension();
+        $medias->move(
+            '../public/uploads/profilePicture',
+            $mediasname
+
+        );
+        $mds = new ProfilesPictures();
+        $mds->setName($mediasname);
+        $mds->setUsers($user);
+        $user->setProfilesPictures($mds);
     }
 }

@@ -62,6 +62,16 @@ class CreateHeroeFormType extends AbstractType
                 'choice_attr' => [
                     'class' => ''
                 ]
+            ])
+            ->add('synergy', EntityType::class, [
+                'label' => 'Votre personnage va être fort avec :',
+                'class' => Heroes::class,
+                'choice_label' => 'name',
+                'expanded' => true,
+                'multiple' => true,
+                'choice_attr' => [
+                    'class' => ''
+                ]
             ]);
     }
 
