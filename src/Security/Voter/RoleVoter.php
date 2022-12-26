@@ -6,10 +6,10 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class HeroePageVoter extends Voter
+class RoleVoter extends Voter
 {
     public const ISADMIN = 'ISADMIN';
-    public const ISUER = 'ISADMIN';
+    public const ISUER = 'ISUSER';
 
     protected function supports(string $attribute, $user): bool
     {

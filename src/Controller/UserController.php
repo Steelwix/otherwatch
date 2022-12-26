@@ -34,6 +34,9 @@ class UserController extends AbstractController
     #[Route('/modify/user/{id}', name: 'app_modify_user')]
     public function modifyUser(Users $users, Request $request, MediasManager $mediasManager, ProfilesPicturesRepository $profilesPicturesRepository, EntityManagerInterface $entityManager): Response
     {
+        if ($this->getUser() !== $users) {
+            $this->denyAccessUnlessGranted('ISADMIN');
+        }
         $form = $this->createForm(ModifyUserFormType::class, $users);
         $form->handleRequest($request);
         if ($form->isSubmitted() and $form->isValid()) {
