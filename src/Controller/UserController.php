@@ -51,10 +51,13 @@ class UserController extends AbstractController
         ]);
     }
     #[Route('/delete/user/{id}', name: 'app_delete_user')]
-    public function deleteUser(Users $users): Response
+    public function deleteUser(Users $users, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('user/delete.html.twig', [
-            'controller_name' => 'UserController',
-        ]);
+        if ($this->getUser() !== $users) {
+            $this->denyAccessUnlessGranted('ISADMIN');
+        }
+        $entityManager->remove($users);
+        $entityManager->flush();
+        return $this->render('app_home');
     }
 }
