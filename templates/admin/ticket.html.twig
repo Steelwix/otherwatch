@@ -11,27 +11,37 @@
 			</div>
 			<div class="row">
 				{% for ticket in tickets %}
-					<div class="card bg-dark col-3 mh-500 d-flex align-items-stretch">
-						<div class="card-title text-center">
-							<p>
-								<strong>{{ticket.author.username}}</strong>
-								à propos de
-								<strong>{{ticket.heroe.name}}</strong>
-							</p>
-
-							<div class="card-content text-center">
-								<p>{{ticket.content}}</p>
-								<p>envoyé le
-									{{ticket.date|date('d-m-Y')}}
-									à
-									{{ticket.date|date('H:i')}}
+					{% if "ROLE_ADMIN" in ticket.author.roles %}
+						<div class="card bg-danger col-3 mh-500 d-flex align-items-stretch">
+						{% else %}
+							<div class="card bg-dark col-3 mh-500 d-flex align-items-stretch">
+							{% endif %}
+							<div class="card-title text-center">
+								<p>
+									<strong>{{ticket.author.username}}</strong>
+									à propos de
+									<strong>{{ticket.heroe.name}}</strong>
 								</p>
+
+								<div class="card-content text-center">
+									<p>{{ticket.content}}</p>
+									<p>envoyé le
+										{{ticket.date|date('d-m-Y')}}
+										à
+										{{ticket.date|date('H:i')}}
+									</p>
+									<a type="button" class="btn btn-dark" href="{{path('app_delete_ticket', {id: ticket.id}) }}">
+										<i class="bi bi-trash-fill">Supprimer</i>
+
+									</a>
+								</div>
 							</div>
+
 						</div>
 
-					</div>
-				{% endfor %}
+
+					{% endfor %}
+				</div>
 			</div>
 		</div>
-	</div>
-{% endblock %}
+	{% endblock %}
