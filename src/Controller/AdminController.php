@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\UpdateTicket;
 use App\Repository\HeroesRepository;
 use App\Repository\UpdateTicketRepository;
 use App\Repository\UsersRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,5 +47,13 @@ class AdminController extends AbstractController
             ['username' => 'asc']
         );
         return $this->render('admin/users.html.twig', ['users' => $users]);
+    }
+    #[Route('/blackwatch/tickets/delete/{id}', name: 'app_delete_ticket')]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour intéragir avec cette route')]
+    public function confirmTicket(UpdateTicket $ticket, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($ticket);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_admin_ticket');
     }
 }

@@ -22,7 +22,7 @@ class UpdateTicket
     #[ORM\JoinColumn(nullable: false)]
     private ?Users $author = null;
 
-    #[ORM\Column(length: 2000)]
+    #[ORM\Column(length: 5000)]
     private ?string $content = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
