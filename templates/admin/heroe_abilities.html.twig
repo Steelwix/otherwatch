@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			{% if is_granted('ISADMIN', app.user) %}
+				<div class="col-2 ms-auto">
+					<a type="button" class="btn btn-dark mt-3" href="{{ path('app_modify_heroe',{id: heroes.id}) }}">
+						<i class="bi bi-pen-fill"></i>
+
+					</a>
+					<a type="button" class="btn btn-dark mt-3" href="{{ path('app_delete_heroe',{id: heroes.id}) }}">
+						<i class="bi bi-trash-fill"></i>
+
+					</a>
+				</div>
+			{% endif %}
+		</row>
+		<div class="row">
+			<div class="col-3">
+				<h1 class="display-1">
+					<i>{{heroes.name}}</i>
+
+				</h1>
+			</div>
+			<div class="col-9">
+				{% if heroes.heroeBackground.media.name is defined %}
+					<img class="img-fluid mx-auto d-block rounded" src="{{asset('/uploads/medias/'~ heroes.heroeBackground.media.name)}}" alt="Card image cap"></div>
+			{% endif %}
+		</div>
+		<div class="col-12 text-center">
+			<h3>
+				<i>Capacités</i>
+			</h3>
+		</div>
+		{% for ability in abilities %}
+			<div class="card bg-dark col-3 mh-500 d-flex align-items-stretch">
+				<img class="mx-auto d-block" src="{{asset('/uploads/spellsicons/'~ ability.spellsIcons.name)}}" alt="Card image cap">
+				<div class="card-title text-center">
+					<p>
+						<strong>{{ability.name}}</strong>
+
+						<div class="card-content text-center">
+							<p>{{ability.description}}</p>
+							<a type="button" class="btn btn-dark" href="{{path('app_delete_ticket', {id: ability.id}) }}">
+								<i class="bi bi-trash-fill">Modifier</i>
+							</a>
+							<a type="button" class="btn btn-dark" href="{{path('app_delete_ticket', {id: ability.id}) }}">
+								<i class="bi bi-trash-fill">Supprimer</i>
+							</a>
+						</div>
+					</p>
+				</div>
+
+			</div>
+
+
+		{% endfor %}
+	</div>
+</div></div>{% endblock %}

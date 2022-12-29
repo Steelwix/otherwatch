@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Heroes;
 use App\Entity\UpdateTicket;
 use App\Repository\HeroesRepository;
 use App\Repository\UpdateTicketRepository;
@@ -47,6 +48,13 @@ class AdminController extends AbstractController
             ['username' => 'asc']
         );
         return $this->render('admin/users.html.twig', ['users' => $users]);
+    }
+    #[Route('/blackwatch/abilities/{id}', name: 'app_ability_heroe')]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour intéragir avec cette route')]
+    public function manageAbility(Heroes $heroes): Response
+    {
+        $abilities = $heroes->getAbilities();
+        return $this->render('admin/heroe_abilities.html.twig', ['heroes' => $heroes, 'abilities' => $abilities]);
     }
     #[Route('/blackwatch/tickets/delete/{id}', name: 'app_delete_ticket')]
     #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour intéragir avec cette route')]

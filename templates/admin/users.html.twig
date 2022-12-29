@@ -12,9 +12,12 @@
 			<div class="row">
 				{% for user in users %}
 					{% if "ROLE_ADMIN" in user.roles %}
-						<div class="card bg-danger col-3 mh-500 d-flex align-items-stretch">
+						<div class="card bg-danger col-2 mh-500 d-flex align-items-stretch">
 						{% else %}
-							<div class="card bg-dark col-3 mh-500 d-flex align-items-stretch">
+							<div class="card bg-dark col-2 mh-500 d-flex align-items-stretch">
+							{% endif %}
+							{% if user.profilesPictures.name is defined %}
+								<img class="card-img-top rounded" src="{{asset('/uploads/profilePicture/'~ user.profilesPictures.name)}}" alt="Card image cap">
 							{% endif %}
 							<div class="card-title text-center">
 								<p>
