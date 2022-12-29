@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ProfilesPictures;
 use App\Entity\Users;
+use App\Form\CreateUserFormType;
 use App\Form\ModifyUserFormType;
 use App\Repository\ProfilesPicturesRepository;
 use App\Service\MediasManager;
@@ -15,22 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-    #[Route('/create/user', name: 'app_create_user')]
-    public function createUser(Request $request, MediasManager $mediasManager, EntityManagerInterface $entityManager): Response
-    {
-        $users = new Users;
-        $form = $this->createForm(CreateUserFormType::class, $users);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() and $form->isValid()) {
-            $mediasManager->newProfilePicture($form->get('profilePictures')->getData(), $users);
-            $entityManager->persist($users);
-            $entityManager->flush();
-            return $this->redirectToRoute('app_home');
-        }
-        return $this->render('user/create.html.twig', [
-            'UserForm' => $form->createView(), 'users' => $users
-        ]);
-    }
+
     #[Route('/modify/user/{id}', name: 'app_modify_user')]
     public function modifyUser(Users $users, Request $request, MediasManager $mediasManager, ProfilesPicturesRepository $profilesPicturesRepository, EntityManagerInterface $entityManager): Response
     {
