@@ -65,6 +65,20 @@
 						{% else %}
 							<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
 						{% endif %}
+						{% if is_granted('ISADMIN', app.user) %}
+							<a type="button" class="btn btn-dark" href="{{ path('app_ability_heroe',{id: heroe.id}) }}">
+								<i class="bi bi-hammer">
+									Capacités</i>
+							</a>
+							<a type="button" class="btn btn-dark" href="{{ path('app_modify_heroe',{id: heroe.id}) }}">
+								<i class="bi bi-pen-fill">
+									Modifier</i>
+							</a>
+							<a type="button" class="btn btn-dark" href="{{ path('app_delete_heroe',{id: heroe.id}) }}">
+								<i class="bi bi-trash-fill">Supprimer</i>
+
+							</a>
+						{% endif %}
 						<div class="card-title text-center">
 
 							<strong>
