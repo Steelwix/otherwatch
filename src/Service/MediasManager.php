@@ -7,6 +7,7 @@ use App\Entity\Heroes;
 use App\Entity\Illustrations;
 use App\Entity\Medias;
 use App\Entity\ProfilesPictures;
+use App\Entity\SpellsIcons;
 
 class MediasManager
 
@@ -58,5 +59,19 @@ class MediasManager
         $mds->setName($mediasname);
         $mds->setUsers($user);
         $user->setProfilesPictures($mds);
+    }
+    public function newSpellIcon($spellIcon, $ability)
+    {
+        $medias = $spellIcon;
+        $mediasname = md5(uniqid()) . '.' . $medias->guessExtension();
+        $medias->move(
+            '../public/uploads/spellsicons',
+            $mediasname
+
+        );
+        $mds = new SpellsIcons();
+        $mds->setName($mediasname);
+        $mds->setAbility($ability);
+        $ability->setSpellsIcons($mds);
     }
 }
