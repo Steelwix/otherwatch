@@ -33,6 +33,9 @@
 			<h3>
 				<i>Capacités</i>
 			</h3>
+			<a type="button" class="btn btn-dark" href="{{path('app_new_ability')}}">
+				<i class="bi bi-plus-lg">Créer une capacité</i>
+			</a>
 		</div>
 		{% for ability in abilities %}
 			<div class="card bg-dark col-3 mh-500 d-flex align-items-stretch">
@@ -43,10 +46,10 @@
 
 						<div class="card-content text-center">
 							<p>{{ability.description}}</p>
-							<a type="button" class="btn btn-dark" href="{{path('app_delete_ticket', {id: ability.id}) }}">
-								<i class="bi bi-trash-fill">Modifier</i>
+							<a type="button" class="btn btn-dark" href="{{path('app_modify_ability', {id: ability.id}) }}">
+								<i class="bbi bi-pen-fill">Modifier</i>
 							</a>
-							<a type="button" class="btn btn-dark" href="{{path('app_delete_ticket', {id: ability.id}) }}">
+							<a type="button" class="btn btn-dark" href="{{path('app_delete_ability', {id: ability.id}) }}">
 								<i class="bi bi-trash-fill">Supprimer</i>
 							</a>
 						</div>
