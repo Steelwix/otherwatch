@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Security;
 
 class NewMessageOnHeroePostFormHandler
 {
-    public function handle(FormInterface $form, Messages $newMessage, Heroes $heroes, EntityManagerInterface $entityManager, Security $security)
+    public function handle($form, $newMessage, $heroes, $entityManager, $security)
     {
         $date = new \DateTimeImmutable('@' . strtotime('now'));
         $newMessage->setDate($date);
