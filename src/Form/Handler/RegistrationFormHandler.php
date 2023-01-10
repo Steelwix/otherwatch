@@ -14,7 +14,10 @@ class RegistrationFormHandler
 {
     public function handle($mediasManager, $entityManager, $form, $users, $passwordHasher)
     {
-        $mediasManager->newProfilePicture($form->get('profilePicture')->getData(), $users);
+        if ($form->get('profilePicture')->getData() != null) {
+            $mediasManager->newProfilePicture($form->get('profilePicture')->getData(), $users);
+        }
+
         $hashedPassword = $passwordHasher->hashPassword(
             $users,
             $form->get('password')->getData()
