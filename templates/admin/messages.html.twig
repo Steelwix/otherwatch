@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h1>
+					<i>COMMENTAIRES</i>
+				</h1>
+			</div>
+			<div class="row">
+				{% for comment in comments %}
+					{% if "ROLE_ADMIN" in comment.users.roles %}
+						<div class="card bg-danger col-2 mh-500 d-flex align-items-stretch">
+						{% else %}
+							<div class="card bg-dark col-2 mh-500 d-flex align-items-stretch">
+							{% endif %}
+							{% if comment.users.profilesPictures.name is defined %}
+								<img class="card-img-top rounded" src="{{asset('/uploads/profilePicture/'~ comment.users.profilesPictures.name)}}" alt="Card image cap">
+							{% endif %}
+							<div class="card-title text-center">
+								<p>
+									<strong>{{comment.users.username}}</strong>
+									{{comment.content}}
+									sur la page de
+									{{comment.heroes.name}}
+								</p>
+
+								<div class="card-content text-center"></div>
+
+								<a type="button" class="btn btn-dark" href="{{path('app_delete_comment', {id: comment.id}) }}">
+									<i class="bi bi-trash-fill">Supprimer</i>
+								</a>
+
+								<a type="button" class="btn btn-dark" href="{{path('app_guide', {slug: comment.heroes.slug}) }}">
+									<i class="bi bi-eye-fill">Voir sur la page</i>
+								</a>
+							</div>
+
+						</div>
+
+
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	{% endblock %}

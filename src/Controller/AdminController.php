@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Heroes;
+use App\Entity\Messages;
 use App\Entity\UpdateTicket;
 use App\Repository\HeroesRepository;
+use App\Repository\MessagesRepository;
 use App\Repository\UpdateTicketRepository;
 use App\Repository\UsersRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -48,6 +50,24 @@ class AdminController extends AbstractController
             ['username' => 'asc']
         );
         return $this->render('admin/users.html.twig', ['users' => $users]);
+    }
+    #[Route('/blackwatch/comments', name: 'app_admin_comment')]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour intéragir avec cette route')]
+    public function manageComments(MessagesRepository $messagesRepository): Response
+    {
+        $comments = $messagesRepository->findBy(
+            []
+        );
+
+        return $this->render('admin/messages.html.twig', ['comments' => $comments]);
+    }
+    #[Route('/blackwatch/comments/delete/{id}', name: 'app_delete_comment')]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour intéragir avec cette route')]
+    public function deleteComment(Messages $messages, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($messages);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_admin_comment');
     }
     #[Route('/blackwatch/abilities/{id}', name: 'app_ability_heroe')]
     #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour intéragir avec cette route')]

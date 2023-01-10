@@ -23,7 +23,7 @@
 		<div class="card-title text-center">
 			<p>Héros</p>
 			<div class="card-content text-center"></div>
-			<a href="">Créer un héros</a>
+			<a href="{{ path('app_new_heroe') }}">Créer un héros</a>
 			<a href="{{ path('app_admin_heroe') }}">Gerer les héros</a>
 		</div>
 	</div>
@@ -31,8 +31,15 @@
 		<div class="card-title text-center">
 			<p>Tickets</p>
 			<div class="card-content text-center"></div>
-			<a href="{{ path('app_admin_ticket') }}">Gerer des tickets</a>
+			<a href="{{ path('app_admin_ticket') }}">Gerer les tickets</a>
 			<a href="{{ path('app_create_ticket') }}">Soumettre un ticket</a>
+		</div>
+	</div>
+	<div class="card bg-dark col-4 mh-500 d-flex align-items-stretch">
+		<div class="card-title text-center">
+			<p>Commentaires</p>
+			<div class="card-content text-center"></div>
+			<a href="{{ path('app_admin_comment') }}">Gerer les commentaires</a>
 		</div>
 	</div>
 </div>{% endblock %}
