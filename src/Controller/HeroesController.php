@@ -14,11 +14,13 @@ use App\Repository\CountersRepository;
 use App\Repository\HeroesRepository;
 use App\Repository\IllustrationsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Form\Handler\NewMessageOnHeroePostFormHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\UnicodeString;
 
 class HeroesController extends AbstractController
@@ -55,7 +57,7 @@ class HeroesController extends AbstractController
     }
 
     #[Route('/heroe/{slug}', name: 'app_guide')]
-    public function guidePage(Heroes $heroes, HeroesRepository $heroesRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function guidePage(Security $security, NewMessageOnHeroePostFormHandler $newMessageOnHeroePostFormHandler, Heroes $heroes, HeroesRepository $heroesRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $counters = $heroes->getCounter();
         $synergies = $heroes->getSynergy();
@@ -79,13 +81,7 @@ class HeroesController extends AbstractController
         $form = $this->createForm(CommentaryFormType::class, $newMessage);
         $form->handleRequest($request);
         if ($form->isSubmitted() and $form->isValid()) {
-            $date = new \DateTimeImmutable('@' . strtotime('now'));
-            $newMessage->setDate($date);
-            $newMessage->setHeroes($heroes);
-            $newMessage->setUsers($this->getUser());
-            $newMessage->setContent($form->get('content')->getData());
-            $entityManager->persist($newMessage);
-            $entityManager->flush();
+            $newMessageOnHeroePostFormHandler->handle($form, $newMessage, $heroes, $entityManager, $security);
             $currentSlug = $heroes->getSlug();
             return $this->redirectToRoute('app_guide', ['slug' => $currentSlug]);
         }
