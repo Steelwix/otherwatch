@@ -53,6 +53,16 @@ class CreateHeroeFormType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
+            ->add('heroeBackground', FileType::class, [
+                'label' => 'Définir une image de fond',
+                'multiple' => false,
+                'mapped' => false,
+                'required' => false,
+                'data_class' => null,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
             ->add('counter', EntityType::class, [
                 'label' => 'Votre personnage va être contré par :',
                 'class' => Heroes::class,
