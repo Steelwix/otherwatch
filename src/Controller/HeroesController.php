@@ -9,6 +9,7 @@ use App\Entity\Medias;
 use App\Entity\Messages;
 use App\Form\CommentaryFormType;
 use App\Form\CreateHeroeFormType;
+use App\Form\Handler\HeroeFormHandler;
 use App\Form\ModifyHeroeFormType;
 use App\Repository\CountersRepository;
 use App\Repository\HeroesRepository;
@@ -28,26 +29,15 @@ class HeroesController extends AbstractController
 
     #[Route('/create/heroe', name: 'app_new_heroe')]
     #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour intéragir avec cette route')]
-    public function createHeroe(HeroesRepository $heroesRepository, MediasManager $mediasManager, Request $request, EntityManagerInterface $entityManager): Response
+    public function createHeroe(HeroeFormHandler $heroeFormHandler, IllustrationsRepository $illustrationsRepository, MediasManager $mediasManager, Request $request, EntityManagerInterface $entityManager): Response
     {
         $heroes = new Heroes;
         $form = $this->createForm(CreateHeroeFormType::class, $heroes);
         $form->handleRequest($request);
         if ($form->isSubmitted() and $form->isValid()) {
-            $mediasManager->newIllustration($form->get('medias')->getData(), $heroes);
-
-            $date = new \DateTime('@' . strtotime('now'));
-            $heroes->setCreationDate($date);
-            $heroesName = $form->get('name')->getData();
-            $heroesNameNoSpace = $heroesName ? new UnicodeString(str_replace(' ', '-', $heroesName)) : null;
-            $heroesSlug = strtolower($heroesNameNoSpace);
-            $heroes->setSlug($heroesSlug);
-
-            $entityManager->persist($heroes);
-            $entityManager->flush();
+            $heroeFormHandler->handle($mediasManager, $entityManager, $form, $heroes, $illustrationsRepository);
             return $this->redirectToRoute('app_home');
         }
-
         return $this->render(
             'heroes/create_heroes.html.twig',
             [
@@ -91,28 +81,12 @@ class HeroesController extends AbstractController
     }
     #[Route('/modify/heroe/{id}', name: 'app_modify_heroe')]
     #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour intéragir avec cette route')]
-    public function modifyHeroe(Heroes $heroes, Request $request, MediasManager $mediasManager, IllustrationsRepository $illustrationsRepository, EntityManagerInterface $entityManager)
+    public function modifyHeroe(HeroeFormHandler $heroeFormHandler, Heroes $heroes, Request $request, MediasManager $mediasManager, IllustrationsRepository $illustrationsRepository, EntityManagerInterface $entityManager)
     {
         $form = $this->createForm(ModifyHeroeFormType::class, $heroes);
         $form->handleRequest($request);
         if ($form->isSubmitted() and $form->isValid()) {
-            if ($form->get('medias')->getData() != null) {
-                $oldIllustration = $illustrationsRepository->findByHeroes($heroes);
-                $entityManager->remove($oldIllustration);
-                $mediasManager->newIllustration($form->get('medias')->getData(), $heroes);
-            }
-            if ($form->get('heroeBackground')->getData() != null) {
-                $mediasManager->newBackground($form->get('heroeBackground')->getData(), $heroes);
-            }
-
-            $date = new \DateTime('@' . strtotime('now'));
-            $heroes->setModificationDate($date);
-            $heroesName = $form->get('name')->getData();
-            $heroesNameNoSpace = $heroesName ? new UnicodeString(str_replace(' ', '-', $heroesName)) : null;
-            $heroesSlug = strtolower($heroesNameNoSpace);
-            $heroes->setSlug($heroesSlug);
-            $entityManager->persist($heroes);
-            $entityManager->flush();
+            $heroeFormHandler->handle($mediasManager, $entityManager, $form, $heroes, $illustrationsRepository);
             $currentSlug = $heroes->getSlug();
             return $this->redirectToRoute('app_guide', ['slug' => $currentSlug]);
         }
