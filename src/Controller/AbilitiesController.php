@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Abilities;
 use App\Entity\SpellsIcons;
 use App\Form\CreateAbilityFormType;
+use App\Form\Handler\AbilityFormHandler;
 use App\Repository\AbilitiesRepository;
 use App\Service\MediasManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,16 +19,13 @@ class AbilitiesController extends AbstractController
 {
     #[Route('/create/ability', name: 'app_new_ability')]
     #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour intéragir avec cette route')]
-    public function createAbility(MediasManager $mediasManager, Request $request, EntityManagerInterface $entityManager): Response
+    public function createAbility(AbilityFormHandler $abilityFormHandler, MediasManager $mediasManager, Request $request, EntityManagerInterface $entityManager): Response
     {
         $ability = new Abilities;
         $form = $this->createForm(CreateAbilityFormType::class, $ability);
         $form->handleRequest($request);
         if ($form->isSubmitted() and $form->isValid()) {
-            $mediasManager->newSpellIcon($form->get('spellsIcons')->getData(), $ability);
-
-            $entityManager->persist($ability);
-            $entityManager->flush();
+            $abilityFormHandler->handle($mediasManager, $entityManager, $form, $ability);
             return $this->redirectToRoute('app_home');
         }
 
@@ -40,17 +38,12 @@ class AbilitiesController extends AbstractController
     }
     #[Route('/modify/ability/{id}', name: 'app_modify_ability')]
     #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour intéragir avec cette route')]
-    public function modifyAbility(Abilities $ability, MediasManager $mediasManager, Request $request, EntityManagerInterface $entityManager): Response
+    public function modifyAbility(Abilities $ability, AbilityFormHandler $abilityFormHandler, MediasManager $mediasManager, Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CreateAbilityFormType::class, $ability);
         $form->handleRequest($request);
         if ($form->isSubmitted() and $form->isValid()) {
-            $spellsIcons = $form->get('spellsIcons')->getData();
-            if ($spellsIcons != null) {
-                $mediasManager->newSpellIcon($form->get('spellsIcons')->getData(), $ability);
-            }
-            $entityManager->persist($ability);
-            $entityManager->flush();
+            $abilityFormHandler->handle($mediasManager, $entityManager, $form, $ability);
             return $this->redirectToRoute('app_home');
         }
 
