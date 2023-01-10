@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\ProfilesPictures;
 use App\Entity\Users;
 use App\Form\CreateUserFormType;
+use App\Form\Handler\RegistrationFormHandler;
 use App\Form\ModifyUserFormType;
 use App\Repository\ProfilesPicturesRepository;
 use App\Service\MediasManager;
@@ -12,13 +13,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
 
     #[Route('/modify/user/{id}', name: 'app_modify_user')]
-    public function modifyUser(Users $users, Request $request, MediasManager $mediasManager, ProfilesPicturesRepository $profilesPicturesRepository, EntityManagerInterface $entityManager): Response
+    public function modifyUser(UserPasswordHasherInterface $passwordHasher, RegistrationFormHandler $registrationFormHandler, Users $users, Request $request, MediasManager $mediasManager, ProfilesPicturesRepository $profilesPicturesRepository, EntityManagerInterface $entityManager): Response
     {
         if ($this->getUser() !== $users) {
             $this->denyAccessUnlessGranted('ISADMIN');
@@ -26,14 +28,8 @@ class UserController extends AbstractController
         $form = $this->createForm(ModifyUserFormType::class, $users);
         $form->handleRequest($request);
         if ($form->isSubmitted() and $form->isValid()) {
-            if ($form->get('profilePicture')->getData() != null) {
-                //$oldPP = $profilesPicturesRepository->findByUsers($users);
-                // $entityManager->remove($oldPP);
-                $mediasManager->newProfilePicture($form->get('profilePicture')->getData(), $users);
-                $entityManager->persist($users);
-                $entityManager->flush();
-                return $this->redirectToRoute('app_home');
-            }
+            $registrationFormHandler->handle($mediasManager, $entityManager, $form, $users, $passwordHasher);
+            return $this->redirectToRoute('app_home');
         }
         return $this->render('user/modify.html.twig', [
             'UserForm' => $form->createView(), 'users' => $users
