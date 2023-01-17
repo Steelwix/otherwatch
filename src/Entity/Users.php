@@ -21,7 +21,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column]
-    private array $roles = [];
+    private array $roles = ["ROLE_USER"];
 
     /**
      * @var string The hashed password
@@ -40,6 +40,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: UpdateTicket::class)]
     private Collection $ticket;
+
+    #[ORM\Column]
+    private ?bool $isVerified = false;
 
     public function __construct()
     {
@@ -207,6 +210,18 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
                 $ticket->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsVerified(): ?bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }

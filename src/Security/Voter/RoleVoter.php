@@ -40,7 +40,7 @@ class RoleVoter extends Voter
     }
     private function isAdmin($user)
     {
-        if ($user->getRoles() == ["ROLE_ADMIN", "ROLE_USER"]) {
+        if ($user->getRoles() == ["ROLE_ADMIN", "ROLE_USER"] || $user->getRoles() == ["ROLE_ADMIN"]) {
             return true;
         }
         return false;
