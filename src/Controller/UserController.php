@@ -23,7 +23,7 @@ class UserController extends AbstractController
     public function modifyUser(UserPasswordHasherInterface $passwordHasher, RegistrationFormHandler $registrationFormHandler, Users $users, Request $request, MediasManager $mediasManager, ProfilesPicturesRepository $profilesPicturesRepository, EntityManagerInterface $entityManager): Response
     {
         if ($this->getUser() !== $users) {
-            $this->denyAccessUnlessGranted('ISADMIN');
+            //$this->denyAccessUnlessGranted('ISADMIN');
         }
         $form = $this->createForm(ModifyUserFormType::class, $users);
         $form->handleRequest($request);
@@ -39,10 +39,10 @@ class UserController extends AbstractController
     public function deleteUser(Users $users, EntityManagerInterface $entityManager): Response
     {
         if ($this->getUser() !== $users) {
-            $this->denyAccessUnlessGranted('ISADMIN');
+            //$this->denyAccessUnlessGranted('ISADMIN');
         }
         $entityManager->remove($users);
         $entityManager->flush();
-        return $this->render('app_home');
+        return $this->redirectToRoute('app_home');
     }
 }
