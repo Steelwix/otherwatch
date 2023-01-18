@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
@@ -43,7 +44,7 @@ class RegistrationController extends AbstractController
 
             $signatureComponents = $this->verifyEmailHelper->generateSignature('app_verify_user', $users->getId(), $users->getEmail(),  ['id' => $users->getId()]);
             $email = new TemplatedEmail();
-            $email->from('otherwatch@gmail.com');
+            $email->from(new Address('exagond3d@gmail.com', 'Otherwatch'));
             $email->to($users->getEmail());
             $email->subject("Activez votre compte");
             $email->htmlTemplate('registration/confirmation_email.html.twig');
