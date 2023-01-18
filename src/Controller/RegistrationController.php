@@ -56,7 +56,7 @@ class RegistrationController extends AbstractController
         ]);
     }
     #[Route('/verify/user', name: 'app_verify_user')]
-    public function verifyUserEmail(Request $request, UsersRepository $usersRepository): Response
+    public function verifyUserEmail(Request $request, UsersRepository $usersRepository, EntityManagerInterface $entityManager): Response
     {
         $id = $request->get('id');
 
@@ -80,8 +80,10 @@ class RegistrationController extends AbstractController
         }
 
         // Mark your user as verified. e.g. switch a User::verified property to true
-
-        $this->addFlash('success', 'Your e-mail address has been verified.');
+        $user->setIsVerified(true);
+        $entityManager->persist($user);
+        $entityManager->flush();
+        $this->addFlash('success', 'Votre e-mail est désormais validé');
 
         return $this->redirectToRoute('app_home');
     }
