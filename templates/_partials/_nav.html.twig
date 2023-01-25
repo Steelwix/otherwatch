@@ -14,7 +14,7 @@
 						<a class="nav-link" href="{{ path('app_admin') }}">Accès à Blackwatch</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="{{ path('app_modify_user', {id: app.user.id}) }}">
+						<a class="nav-link" href="{{ path('app_profile') }}">
 							{% if app.user.profilesPictures.name is defined %}
 								<img class="rounded" src="{{asset('/uploads/profilePicture/'~ app.user.profilesPictures.name)}}" height="25" alt="Card image cap">
 							{% endif %}
@@ -29,8 +29,11 @@
 						<a class="nav-link" href="{{ path('app_create_ticket') }}">Soumettre un ticket</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="">{{ app.user.username }}
-
+						<a class="nav-link" href="{{ path('app_profile') }}">
+							{% if app.user.profilesPictures.name is defined %}
+								<img class="rounded" src="{{asset('/uploads/profilePicture/'~ app.user.profilesPictures.name)}}" height="25" alt="Card image cap">
+							{% endif %}
+							{{ app.user.username }}
 						</a>
 					</li>
 					<li class="nav-item">
