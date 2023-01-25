@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-3">
+				<h1 class="display-1">
+					{{user.username}}
+
+				</h1>
+			</div>
+			<div class="col-9">
+				{% if app.user.profilesPictures.name is defined %}
+					<img class="img-fluid mx-auto d-block rounded" src="{{asset('/uploads/profilePicture/'~ app.user.profilesPictures.name)}}" alt="Card image cap"></div>
+			{% endif %}
+			<div class="col-12">
+				<p>Adresse e-mail :
+					{{user.email}}</p>
+				<p>Nombre de messages :
+					{{messages}}
+				</p>
+				<p>Nombre de tickets en attente :
+					{{ticket}}
+				</p>
+				<a href="{{ path('app_forgot_password_request') }}">Changer le mot de passe</a>
+				<a href="{{ path('app_modify_user',{id: user.id}) }}">Modifier le profil</a>
+			</div>
+		</div>
+	</div>
+</div></div>{% endblock %}

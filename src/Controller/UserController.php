@@ -18,7 +18,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-
+    #[Route('/profil', name: 'app_profile')]
+    public function profileView()
+    {
+        $user = $this->getUser();
+        $messages = count($user->getMessages());
+        $ticket = count($user->getTicket());
+        return $this->render('user/profile.html.twig', ['user' => $user, 'messages' => $messages, 'ticket' => $ticket]);
+    }
     #[Route('/modify/user/{id}', name: 'app_modify_user')]
     public function modifyUser(UserPasswordHasherInterface $passwordHasher, RegistrationFormHandler $registrationFormHandler, Users $users, Request $request, MediasManager $mediasManager, ProfilesPicturesRepository $profilesPicturesRepository, EntityManagerInterface $entityManager): Response
     {
