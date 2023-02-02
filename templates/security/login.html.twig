@@ -33,7 +33,8 @@
 						Connexion
 					</button><br><br>
 					<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-					<a class="d-lg-none" href="">S'inscrire</a><br><br>
+					<a class="" href="{{ path('app_create_user') }}">S'inscrire</a>
+					<a class="" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié?</a>
 				</form>
 
 			</div>
