@@ -156,7 +156,7 @@
 			{% endfor %}
 		{% endif %}
 	</h3>
-</div></div></h3><div class="col-12"><h3>Commentaires</h3>{% if app.user.username is defined%}
+</div></div></h3><div class="col-12"><h3>Commentaires</h3>{% if app.user is defined%}
 <div class="col-12">
 	{{ form_start(comForm)}}
 	{{ form_row(comForm.content)}}
@@ -164,6 +164,9 @@
 	{{ form_end(comForm)}}
 </div><br>{% endif %}{% for message in messages %}
 <div class="col-12">
+	{% if message.users.profilesPictures.name is defined %}
+		<img class="rounded" src="{{asset('/uploads/profilePicture/'~ message.users.profilesPictures.name)}}" height="25" alt="Card image cap">
+	{% endif %}
 	<strong>{{message.users.username}}</strong>
 	<i class="grey-text">posté le
 		{{message.date|date('d-m-Y H:i:s')}}</i>
