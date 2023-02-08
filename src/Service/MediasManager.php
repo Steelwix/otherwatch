@@ -2,12 +2,14 @@
 
 namespace App\Service;
 
+use App\Entity\Abilities;
 use App\Entity\HeroeBackground;
 use App\Entity\Heroes;
 use App\Entity\Illustrations;
 use App\Entity\Medias;
 use App\Entity\ProfilesPictures;
 use App\Entity\SpellsIcons;
+use App\Entity\Users;
 
 class MediasManager
 
@@ -46,7 +48,7 @@ class MediasManager
         $illu->setMedia($mds);
         $heroes->setHeroeBackground($illu);
     }
-    public function newProfilePicture($profilePicture, $user)
+    public function newProfilePicture($profilePicture, Users $user)
     {
         $medias = $profilePicture;
         $mediasname = md5(uniqid()) . '.' . $medias->guessExtension();
@@ -60,7 +62,7 @@ class MediasManager
         $mds->setUsers($user);
         $user->setProfilesPictures($mds);
     }
-    public function newSpellIcon($spellIcon, $ability)
+    public function newSpellIcon($spellIcon, Abilities $ability)
     {
         $medias = $spellIcon;
         $mediasname = md5(uniqid()) . '.' . $medias->guessExtension();
