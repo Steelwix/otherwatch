@@ -64,7 +64,6 @@ class Heroes
     #[ORM\OneToMany(mappedBy: 'heroe', targetEntity: UpdateTicket::class, orphanRemoval: true)]
     private Collection $ticket;
 
-
     public function __construct()
     {
         $this->messages = new ArrayCollection();
