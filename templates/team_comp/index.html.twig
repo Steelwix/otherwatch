@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+	<div class="container">
+
+		{% for team in teams %}
+			<div class="row">
+				<h3>{{team.name}}</h3>
+				<!-- TANK -->
+				<div class="card bg-dark col-2 mh-500 d-flex align-items-stretch wrap-heroe">
+					<a href="{{ path('app_guide',{slug: team.tank.slug}) }}" class=" text-decoration-none link-light">
+						{% if team.tank.illustrations.medias.name  is defined %}
+							<img class="card-img-top" src="{{asset('/uploads/medias/'~ team.tank.illustrations.medias.name)}}" alt="Card image cap">
+						{% else %}
+							<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
+						{% endif %}
+						<div class="card-title text-center">
+							<strong>
+								<h3>{{team.tank.name}}</h3>
+							</strong>
+						</div>
+					</a>
+				</div>
+				<!-- DPS1 -->
+				<div class="card bg-dark col-2 mh-500 d-flex align-items-stretch wrap-heroe">
+					<a href="{{ path('app_guide',{slug: team.firstDamage.slug}) }}" class=" text-decoration-none link-light">
+						{% if team.firstDamage.illustrations.medias.name  is defined %}
+							<img class="card-img-top" src="{{asset('/uploads/medias/'~ team.firstDamage.illustrations.medias.name)}}" alt="Card image cap">
+						{% else %}
+							<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
+						{% endif %}
+						<div class="card-title text-center">
+							<strong>
+								<h3>{{team.firstDamage.name}}</h3>
+							</strong>
+						</div>
+					</a>
+				</div>
+				<!-- DPS2 -->
+				<div class="card bg-dark col-2 mh-500 d-flex align-items-stretch wrap-heroe">
+					<a href="{{ path('app_guide',{slug: team.secondDamage.slug}) }}" class=" text-decoration-none link-light">
+						{% if team.secondDamage.illustrations.medias.name  is defined %}
+							<img class="card-img-top" src="{{asset('/uploads/medias/'~ team.secondDamage.illustrations.medias.name)}}" alt="Card image cap">
+						{% else %}
+							<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
+						{% endif %}
+						<div class="card-title text-center">
+							<strong>
+								<h3>{{team.secondDamage.name}}</h3>
+							</strong>
+						</div>
+					</a>
+				</div>
+				<!-- SUP1 -->
+				<div class="card bg-dark col-2 mh-500 d-flex align-items-stretch wrap-heroe">
+					<a href="{{ path('app_guide',{slug: team.firstSupport.slug}) }}" class=" text-decoration-none link-light">
+						{% if team.firstSupport.illustrations.medias.name  is defined %}
+							<img class="card-img-top" src="{{asset('/uploads/medias/'~ team.firstSupport.illustrations.medias.name)}}" alt="Card image cap">
+						{% else %}
+							<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
+						{% endif %}
+						<div class="card-title text-center">
+							<strong>
+								<h3>{{team.firstSupport.name}}</h3>
+							</strong>
+						</div>
+					</a>
+				</div>
+				<!-- SUP2 -->
+				<div class="card bg-dark col-2 mh-500 d-flex align-items-stretch wrap-heroe">
+					<a href="{{ path('app_guide',{slug: team.secondSupport.slug}) }}" class=" text-decoration-none link-light">
+						{% if team.secondSupport.illustrations.medias.name  is defined %}
+							<img class="card-img-top" src="{{asset('/uploads/medias/'~ team.secondSupport.illustrations.medias.name)}}" alt="Card image cap">
+						{% else %}
+							<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSioWxL93UsW57DpcTe8HxCKG26b47NsUDXB6-Jd9ZY2icXH8aFptyAB9AbIzEpdg4YGrE&usqp=CAU" alt="Card image cap">
+						{% endif %}
+						<div class="card-title text-center">
+							<strong>
+								<h3>{{team.secondSupport.name}}</h3>
+							</strong>
+						</div>
+					</a>
+				</div>
+			</div>
+		{% endfor %}
+	</h3>
+
+</div>{% endblock %}
