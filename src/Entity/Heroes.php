@@ -64,6 +64,9 @@ class Heroes
     #[ORM\OneToMany(mappedBy: 'heroe', targetEntity: UpdateTicket::class, orphanRemoval: true)]
     private Collection $ticket;
 
+    #[ORM\OneToMany(mappedBy: 'tank', targetEntity: TeamComps::class)]
+    private Collection $compo;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
@@ -73,6 +76,7 @@ class Heroes
         $this->counter = new ArrayCollection();
         $this->synergy = new ArrayCollection();
         $this->ticket = new ArrayCollection();
+        $this->compo = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -388,6 +392,36 @@ class Heroes
             // set the owning side to null (unless already changed)
             if ($ticket->getHeroe() === $this) {
                 $ticket->setHeroe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TeamComps>
+     */
+    public function getCompo(): Collection
+    {
+        return $this->compo;
+    }
+
+    public function addCompo(TeamComps $compo): self
+    {
+        if (!$this->compo->contains($compo)) {
+            $this->compo->add($compo);
+            $compo->setTank($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompo(TeamComps $compo): self
+    {
+        if ($this->compo->removeElement($compo)) {
+            // set the owning side to null (unless already changed)
+            if ($compo->getTank() === $this) {
+                $compo->setTank(null);
             }
         }
 
