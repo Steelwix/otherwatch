@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une composition
+{% endblock %}
+
+{% block body %}
+	<section class="container">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h1>Créer une composition</h1>
+			</div>
+			<div class="card bg-dark col-10 col-md-9 col-lg-6 mx-auto text-center">
+				{{ form_start(teamForm)}}<br>
+				{{ form_row(teamForm.name)}}<br>
+				{{ form_row(teamForm.tank)}}<br>
+				{{ form_row(teamForm.firstDamage)}}<br>
+				{{ form_row(teamForm.secondDamage)}}
+				{{ form_row(teamForm.firstSupport)}}
+				{{ form_row(teamForm.secondSupport)}}<br>
+				<button type="submit" class="btn btn-primary btn-lg">Créer</button>
+				{{ form_end(teamForm)}}
+			</div>
+		</div>
+	</section>
+{% endblock %}
