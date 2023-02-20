@@ -32,4 +32,26 @@ class TeamCompController extends AbstractController
         }
         return $this->render('team_comp/create.html.twig', ['teamForm' => $form->createView()]);
     }
+    #[Route('/modify/comp/{id}', name: 'app_modify_comp')]
+    public function modifyTeamComp(TeamComps $teamcomp, Request $request, EntityManagerInterface $entityManager): Response
+    {
+
+        $form = $this->createForm(CreateTeamCompFormType::class, $teamcomp);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() and $form->isValid()) {
+            $entityManager->persist($teamcomp);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_team');
+        }
+        return $this->render('team_comp/create.html.twig', ['teamForm' => $form->createView()]);
+    }
+    #[Route('/delete/comp/{id}', name: 'app_delete_comp')]
+    public function deleteTeamComp(TeamComps $teamcomp, EntityManagerInterface $entityManager): Response
+    {
+
+
+        $entityManager->remove($teamcomp);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_team');
+    }
 }
