@@ -16,12 +16,31 @@ use Symfony\Component\Security\Core\Security;
 
 class MainController extends AbstractController
 {
+    private $createTicketFormHandler;
+    private $heroesRepository;
+    private $security;
+    private $request;
+    private $entityManager;
+
+    public function __construct(
+        CreateTicketFormHandler $createTicketFormHandler,
+        HeroesRepository $heroesRepository,
+        Security $security,
+        Request $request,
+        EntityManagerInterface $entityManager
+    ) {
+        $this->createTicketFormHandler = $createTicketFormHandler;
+        $this->heroesRepository = $heroesRepository;
+        $this->security = $security;
+        $this->request = $request;
+        $this->entityManager = $entityManager;
+    }
     #[Route('/', name: 'app_home')]
-    public function homepage(HeroesRepository $heroesRepository, RolesRepository $rolesRepository): Response
+    public function homepage(): Response
     {
         return $this->render('main/index.html.twig', [
 
-            'heroes' => $heroesRepository->findBy(
+            'heroes' => $this->heroesRepository->findBy(
                 [],
                 ['name' => 'asc']
             ),
@@ -29,13 +48,13 @@ class MainController extends AbstractController
         ]);
     }
     #[Route('/create/ticket', name: 'app_create_ticket')]
-    public function createUpdateTicket(CreateTicketFormHandler $createTicketFormHandler, Security $security, Request $request, EntityManagerInterface $entityManager): Response
+    public function createUpdateTicket(): Response
     {
         $updateTicket = new UpdateTicket;
         $form = $this->createForm(CreateTicketFormType::class, $updateTicket);
-        $form->handleRequest($request);
+        $form->handleRequest($this->request);
         if ($form->isSubmitted() and $form->isValid()) {
-            $createTicketFormHandler->handle($updateTicket, $entityManager, $security);
+            $this->createTicketFormHandler->handle($updateTicket, $this->entityManager, $this->security);
             return $this->redirectToRoute('app_home');
         }
         return $this->render('main/create_ticket.html.twig', ['ticketForm' => $form->createView()]);
